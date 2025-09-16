@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
 import { Eye, EyeOff, Mail, Lock } from 'lucide-react'
 
@@ -16,6 +17,7 @@ export default function LoginForm({ onToggleMode, onForgotPassword }: LoginFormP
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const { signIn } = useAuth()
+  const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -26,9 +28,11 @@ export default function LoginForm({ onToggleMode, onForgotPassword }: LoginFormP
     
     if (error) {
       setError(error.message)
+      setLoading(false)
+    } else {
+      // 로그인 성공 시 메인 페이지로 리다이렉트
+      router.push('/')
     }
-    
-    setLoading(false)
   }
 
   return (

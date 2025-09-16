@@ -141,9 +141,32 @@ Edit `app/quiz/page.tsx` and add new questions to the `quizQuestions` array:
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
+## 🔧 Development Tools
+
+For development and testing, you can access the dev tools at:
+- Development tools: [http://localhost:3000/dev-tools](http://localhost:3000/dev-tools)
+
+**Note**: Dev tools are only available in development mode.
+
+## 🗄️ Database & Authentication
+
+The app now includes:
+- ✅ **Supabase Integration**: Database and authentication
+- ✅ **User Authentication**: Email/password signup, login, logout, password reset
+- ✅ **User Progress Tracking**: Individual learning progress and scores
+- ✅ **Favorites System**: Save favorite vocabulary words
+- ✅ **Row Level Security**: Secure user data access
+
+## 🚀 Deployment
+
+The app is ready for deployment on platforms like Vercel or Netlify:
+
+```bash
+npm run build
+```
+
 ## Future Enhancements
 
-- [ ] User authentication and progress saving
 - [ ] Advanced grammar lessons
 - [ ] Conversation practice with AI
 - [ ] Mobile app version

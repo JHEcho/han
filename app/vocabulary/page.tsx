@@ -208,12 +208,22 @@ export default function VocabularyPage() {
             <div
               key={index}
               className="lesson-card p-6 cursor-pointer hover:scale-105 transition-transform duration-200"
-              onClick={() => setSelectedWord(word)}
+              onClick={() => setSelectedWord({
+                korean: word.korean,
+                romanization: 'pronunciation' in word ? word.pronunciation || '' : '',
+                english: word.english,
+                category: word.category,
+                difficulty: word.difficulty,
+                example: undefined,
+                exampleTranslation: undefined
+              })}
             >
               <div className="flex justify-between items-start mb-4">
                 <div className="flex-1">
                   <div className="text-2xl font-bold text-korean-red mb-2">{word.korean}</div>
-                  <div className="text-lg text-gray-600 mb-1">{word.romanization}</div>
+                  <div className="text-lg text-gray-600 mb-1">
+                    {'pronunciation' in word ? word.pronunciation : 'romanization' in word ? word.romanization : ''}
+                  </div>
                   <div className="text-xl font-medium text-gray-900">{word.english}</div>
                 </div>
                 <button
