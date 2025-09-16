@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import Navigation from '@/components/Navigation'
 import { Trophy, RotateCcw, CheckCircle, XCircle, Star, Clock, Volume2 } from 'lucide-react'
+import { supabase, Quiz } from '@/lib/supabase'
 
 interface QuizQuestion {
   id: number
@@ -73,7 +74,52 @@ export default function QuizPage() {
   const [score, setScore] = useState(0)
   const [timeLeft, setTimeLeft] = useState(30)
   const [quizCompleted, setQuizCompleted] = useState(false)
-  const [userAnswers, setUserAnswers] = useState<(number | null)[]>(new Array(quizQuestions.length).fill(null))
+  const [userAnswers, setUserAnswers] = useState<(number | null)[]>([])
+  const [quizData, setQuizData] = useState<Quiz[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetchQuizData()
+  }, [])
+
+  const fetchQuizData = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('quiz')
+        .select('*')
+        .order('id')
+
+      if (error) {
+        console.error('Error fetching quiz data:', error)
+        setQuizData([])
+      } else {
+        setQuizData(data || [])
+      }
+    } catch (error) {
+      console.error('Error:', error)
+      setQuizData([])
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  // Use database data if available, otherwise fallback to static data
+  const questions = quizData.length > 0 
+    ? quizData.map(quiz => ({
+        id: quiz.id,
+        type: 'vocabulary' as const,
+        question: quiz.question,
+        options: quiz.options as string[],
+        correctAnswer: quiz.options.indexOf(quiz.correct_answer),
+        explanation: quiz.explanation || '',
+        korean: undefined,
+        romanization: undefined
+      }))
+    : quizQuestions
+
+  useEffect(() => {
+    setUserAnswers(new Array(questions.length).fill(null))
+  }, [questions.length])
 
   useEffect(() => {
     if (timeLeft > 0 && !showResult && !quizCompleted) {
@@ -96,7 +142,7 @@ export default function QuizPage() {
       newAnswers[currentQuestion] = selectedAnswer
       setUserAnswers(newAnswers)
 
-      if (selectedAnswer === quizQuestions[currentQuestion].correctAnswer) {
+      if (selectedAnswer === questions[currentQuestion].correctAnswer) {
         setScore(score + 1)
       }
     }
@@ -104,7 +150,7 @@ export default function QuizPage() {
   }
 
   const handleNextQuestion = () => {
-    if (currentQuestion < quizQuestions.length - 1) {
+    if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1)
       setSelectedAnswer(null)
       setShowResult(false)
@@ -121,11 +167,11 @@ export default function QuizPage() {
     setScore(0)
     setTimeLeft(30)
     setQuizCompleted(false)
-    setUserAnswers(new Array(quizQuestions.length).fill(null))
+    setUserAnswers(new Array(questions.length).fill(null))
   }
 
   const getScoreMessage = () => {
-    const percentage = (score / quizQuestions.length) * 100
+    const percentage = (score / questions.length) * 100
     if (percentage >= 80) return { message: 'Excellent!', color: 'text-green-600' }
     if (percentage >= 60) return { message: 'Good job!', color: 'text-blue-600' }
     if (percentage >= 40) return { message: 'Not bad!', color: 'text-yellow-600' }
@@ -155,14 +201,14 @@ export default function QuizPage() {
                 {scoreMessage.message}
               </div>
               <div className="text-xl text-gray-600">
-                You scored {score} out of {quizQuestions.length} questions
+                You scored {score} out of {questions.length} questions
               </div>
             </div>
 
             <div className="bg-white rounded-xl p-8 shadow-lg mb-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Quiz Review</h2>
               <div className="space-y-4">
-                {quizQuestions.map((question, index) => {
+                {questions.map((question, index) => {
                   const userAnswer = userAnswers[index]
                   const isCorrect = userAnswer === question.correctAnswer
                   
@@ -227,7 +273,7 @@ export default function QuizPage() {
         <div className="bg-white rounded-xl p-6 shadow-lg mb-8">
           <div className="flex justify-between items-center mb-4">
             <div className="text-lg font-medium text-gray-700">
-              Question {currentQuestion + 1} of {quizQuestions.length}
+              Question {currentQuestion + 1} of {questions.length}
             </div>
             <div className="flex items-center text-lg font-medium text-gray-700">
               <Clock className="mr-2" size={20} />
@@ -237,7 +283,7 @@ export default function QuizPage() {
           <div className="w-full bg-gray-200 rounded-full h-3">
             <div 
               className="bg-primary-600 h-3 rounded-full transition-all duration-1000"
-              style={{ width: `${((currentQuestion + 1) / quizQuestions.length) * 100}%` }}
+              style={{ width: `${((currentQuestion + 1) / questions.length) * 100}%` }}
             ></div>
           </div>
         </div>
@@ -330,7 +376,7 @@ export default function QuizPage() {
                 onClick={handleNextQuestion}
                 className="btn-primary w-full"
               >
-                {currentQuestion < quizQuestions.length - 1 ? 'Next Question' : 'Finish Quiz'}
+                {currentQuestion < questions.length - 1 ? 'Next Question' : 'Finish Quiz'}
               </button>
             </div>
           )}

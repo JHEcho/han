@@ -1,8 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Navigation from '@/components/Navigation'
 import { ArrowLeft, Volume2, CheckCircle } from 'lucide-react'
+import { supabase, Hangeul } from '@/lib/supabase'
 
 interface HangeulChar {
   char: string
@@ -49,6 +50,34 @@ const vowels: HangeulChar[] = [
 export default function HangeulPage() {
   const [activeTab, setActiveTab] = useState<'consonants' | 'vowels'>('consonants')
   const [selectedChar, setSelectedChar] = useState<HangeulChar | null>(null)
+  const [hangeulData, setHangeulData] = useState<Hangeul[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetchHangeulData()
+  }, [])
+
+  const fetchHangeulData = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('hangeul')
+        .select('*')
+        .order('id')
+
+      if (error) {
+        console.error('Error fetching hangeul data:', error)
+        // Fallback to static data if database fails
+        setHangeulData([])
+      } else {
+        setHangeulData(data || [])
+      }
+    } catch (error) {
+      console.error('Error:', error)
+      setHangeulData([])
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const playAudio = (text: string) => {
     if ('speechSynthesis' in window) {
@@ -116,8 +145,27 @@ export default function HangeulPage() {
 
         {/* Character Grid */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-8">
-          {(activeTab === 'consonants' ? consonants : vowels).map((char, index) =>
-            renderCharCard(char, index)
+          {loading ? (
+            <div className="col-span-full text-center py-8">
+              <div className="text-gray-500">Loading Korean characters...</div>
+            </div>
+          ) : (
+            (() => {
+              const dbChars = hangeulData.filter(char => 
+                activeTab === 'consonants' ? char.category === 'consonant' : char.category === 'vowel'
+              )
+              
+              // Use database data if available, otherwise fallback to static data
+              const charsToShow = dbChars.length > 0 ? dbChars.map(char => ({
+                char: char.character,
+                romanization: char.pronunciation,
+                pronunciation: char.pronunciation,
+                example: undefined,
+                exampleMeaning: undefined
+              })) : (activeTab === 'consonants' ? consonants : vowels)
+              
+              return charsToShow.map((char, index) => renderCharCard(char, index))
+            })()
           )}
         </div>
 

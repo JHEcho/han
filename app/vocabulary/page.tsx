@@ -1,8 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Navigation from '@/components/Navigation'
 import { Volume2, Star, ArrowRight, BookOpen, Users, Clock } from 'lucide-react'
+import { supabase, Vocabulary } from '@/lib/supabase'
 
 interface VocabularyWord {
   korean: string
@@ -48,12 +49,54 @@ export default function VocabularyPage() {
   const [selectedDifficulty, setSelectedDifficulty] = useState('All')
   const [favorites, setFavorites] = useState<string[]>([])
   const [selectedWord, setSelectedWord] = useState<VocabularyWord | null>(null)
+  const [vocabularyData, setVocabularyData] = useState<Vocabulary[]>([])
+  const [loading, setLoading] = useState(true)
 
-  const filteredWords = vocabularyData.filter(word => {
-    const categoryMatch = selectedCategory === 'All' || word.category === selectedCategory
-    const difficultyMatch = selectedDifficulty === 'All' || word.difficulty === selectedDifficulty
-    return categoryMatch && difficultyMatch
-  })
+  useEffect(() => {
+    fetchVocabularyData()
+  }, [])
+
+  const fetchVocabularyData = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('vocabulary')
+        .select('*')
+        .order('id')
+
+      if (error) {
+        console.error('Error fetching vocabulary data:', error)
+        setVocabularyData([])
+      } else {
+        setVocabularyData(data || [])
+      }
+    } catch (error) {
+      console.error('Error:', error)
+      setVocabularyData([])
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const filteredWords = (() => {
+    // Use database data if available, otherwise fallback to static data
+    const wordsToFilter = vocabularyData.length > 0 
+      ? vocabularyData.map(vocab => ({
+          korean: vocab.korean,
+          romanization: vocab.pronunciation || '',
+          english: vocab.english,
+          category: vocab.category || 'Basic',
+          difficulty: vocab.difficulty,
+          example: undefined,
+          exampleTranslation: undefined
+        }))
+      : vocabularyData
+
+    return wordsToFilter.filter(word => {
+      const categoryMatch = selectedCategory === 'All' || word.category === selectedCategory
+      const difficultyMatch = selectedDifficulty === 'All' || word.difficulty === selectedDifficulty
+      return categoryMatch && difficultyMatch
+    })
+  })()
 
   const playAudio = (text: string) => {
     if ('speechSynthesis' in window) {
