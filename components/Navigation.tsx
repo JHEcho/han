@@ -2,10 +2,16 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { BookOpen, Home, Brain, Trophy, Menu, X } from 'lucide-react'
+import { useAuth } from '@/contexts/AuthContext'
+import { BookOpen, Home, Brain, Trophy, Menu, X, LogOut, User } from 'lucide-react'
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
+  const { user, signOut } = useAuth()
+
+  const handleSignOut = async () => {
+    await signOut()
+  }
 
   const navItems = [
     { href: '/', label: 'Home', icon: Home },
@@ -42,6 +48,30 @@ export default function Navigation() {
                 </Link>
               )
             })}
+            
+            {/* User Menu */}
+            {user ? (
+              <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-2 text-gray-700">
+                  <User size={20} />
+                  <span className="text-sm">{user.email}</span>
+                </div>
+                <button
+                  onClick={handleSignOut}
+                  className="flex items-center space-x-2 text-gray-700 hover:text-red-600 transition-colors duration-200"
+                >
+                  <LogOut size={20} />
+                  <span>Sign Out</span>
+                </button>
+              </div>
+            ) : (
+              <Link
+                href="/auth"
+                className="btn-primary px-4 py-2 text-sm"
+              >
+                Sign In
+              </Link>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -73,6 +103,36 @@ export default function Navigation() {
                   </Link>
                 )
               })}
+              
+              {/* Mobile User Menu */}
+              {user ? (
+                <div className="border-t pt-2 mt-2">
+                  <div className="flex items-center space-x-3 text-gray-700 px-3 py-2">
+                    <User size={20} />
+                    <span className="text-sm">{user.email}</span>
+                  </div>
+                  <button
+                    onClick={() => {
+                      handleSignOut()
+                      setIsOpen(false)
+                    }}
+                    className="flex items-center space-x-3 text-gray-700 hover:text-red-600 transition-colors duration-200 px-3 py-2 rounded-md w-full"
+                  >
+                    <LogOut size={20} />
+                    <span>Sign Out</span>
+                  </button>
+                </div>
+              ) : (
+                <div className="border-t pt-2 mt-2">
+                  <Link
+                    href="/auth"
+                    className="flex items-center justify-center space-x-2 btn-primary px-3 py-2 mx-3"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <span>Sign In</span>
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         )}

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Navigation from '@/components/Navigation'
+import ProtectedRoute from '@/components/ProtectedRoute'
 import { Trophy, RotateCcw, CheckCircle, XCircle, Star, Clock, Volume2 } from 'lucide-react'
 import { supabase, Quiz } from '@/lib/supabase'
 
@@ -190,8 +191,9 @@ export default function QuizPage() {
   if (quizCompleted) {
     const scoreMessage = getScoreMessage()
     return (
-      <div className="min-h-screen">
-        <Navigation />
+      <ProtectedRoute>
+        <div className="min-h-screen">
+          <Navigation />
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center">
             <div className="mb-8">
@@ -250,15 +252,17 @@ export default function QuizPage() {
             </div>
           </div>
         </div>
-      </div>
+        </div>
+      </ProtectedRoute>
     )
   }
 
   const currentQ = quizQuestions[currentQuestion]
 
   return (
-    <div className="min-h-screen">
-      <Navigation />
+    <ProtectedRoute>
+      <div className="min-h-screen">
+        <Navigation />
       
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
@@ -409,6 +413,7 @@ export default function QuizPage() {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </ProtectedRoute>
   )
 }
