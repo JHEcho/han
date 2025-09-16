@@ -1,5 +1,8 @@
 'use client'
 
+// Force dynamic rendering to prevent prerendering issues
+export const dynamic = 'force-dynamic'
+
 import Navigation from '@/components/Navigation'
 import Link from 'next/link'
 import { BookOpen, Brain, Trophy, Users, Star, ArrowRight } from 'lucide-react'

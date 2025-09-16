@@ -1,6 +1,9 @@
 'use client'
 
 import { useState } from 'react'
+
+// Force dynamic rendering to prevent prerendering issues
+export const dynamic = 'force-dynamic'
 import LoginForm from '@/components/auth/LoginForm'
 import SignupForm from '@/components/auth/SignupForm'
 import ForgotPasswordForm from '@/components/auth/ForgotPasswordForm'
