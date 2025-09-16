@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Noto Sans KR', system-ui, sans-serif;
+  }
+  
+  body {
+    @apply bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen;
+  }
+}
+
+@layer components {
+  .korean-text {
+    @apply font-korean text-2xl font-medium;
+  }
+  
+  .lesson-card {
+    @apply bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1;
+  }
+  
+  .btn-primary {
+    @apply bg-primary-600 hover:bg-primary-700 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200;
+  }
+  
+  .btn-secondary {
+    @apply bg-white hover:bg-gray-50 text-primary-600 font-medium py-3 px-6 rounded-lg border border-primary-200 transition-colors duration-200;
+  }
+  
+  .hangeul-display {
+    @apply text-6xl font-bold text-korean-red mb-4;
+  }
+  
+  .pronunciation {
+    @apply text-lg text-gray-600 italic;
+  }
+}
