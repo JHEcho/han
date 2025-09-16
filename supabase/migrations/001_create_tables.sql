@@ -74,16 +74,16 @@ INSERT INTO hangeul (character, pronunciation, category) VALUES
 ON CONFLICT (character) DO NOTHING;
 
 -- Insert sample vocabulary
-INSERT INTO hangeul (character, pronunciation, category) VALUES
-('안녕하세요', 'annyeonghaseyo', 'greeting'),
-('감사합니다', 'gamsahamnida', 'greeting'),
-('죄송합니다', 'joesonghamnida', 'greeting'),
-('사과', 'sagwa', 'food'),
-('물', 'mul', 'food'),
-('책', 'chaek', 'object'),
-('학교', 'hakgyo', 'place'),
-('집', 'jip', 'place')
-ON CONFLICT (character) DO NOTHING;
+INSERT INTO vocabulary (korean, english, pronunciation, category, difficulty) VALUES
+('안녕하세요', 'Hello', 'annyeonghaseyo', 'Greetings', 'beginner'),
+('감사합니다', 'Thank you', 'gamsahamnida', 'Greetings', 'beginner'),
+('죄송합니다', 'Sorry', 'joesonghamnida', 'Greetings', 'beginner'),
+('사과', 'Apple', 'sagwa', 'Food & Drink', 'beginner'),
+('물', 'Water', 'mul', 'Food & Drink', 'beginner'),
+('책', 'Book', 'chaek', 'Objects', 'beginner'),
+('학교', 'School', 'hakgyo', 'Places', 'beginner'),
+('집', 'House', 'jip', 'Places', 'beginner')
+ON CONFLICT (korean) DO NOTHING;
 
 -- Insert sample quiz questions
 INSERT INTO quiz (question, options, correct_answer, explanation, category, difficulty) VALUES
