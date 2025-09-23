@@ -15,6 +15,7 @@ export default function Navigation() {
 
   const navItems = [
     { href: '/', label: 'Home', icon: Home },
+    { href: '/learn', label: 'Learn', icon: BookOpen },
     { href: '/hangeul', label: 'Hangeul', icon: BookOpen },
     { href: '/vocabulary', label: 'Vocabulary', icon: Brain },
     { href: '/quiz', label: 'Quiz', icon: Trophy },

@@ -5,309 +5,283 @@ export const dynamic = 'force-dynamic'
 
 import Navigation from '@/components/Navigation'
 import ProtectedRoute from '@/components/ProtectedRoute'
-import { useLearningProgress } from '@/hooks/useLearningProgress'
 import Link from 'next/link'
-import { BookOpen, Brain, Trophy, Users, Star, ArrowRight, Clock, CheckCircle, Lock, Play, Target, Award } from 'lucide-react'
+import { BookOpen, Brain, Trophy, Users, Star, ArrowRight, Target, Award, Clock, CheckCircle } from 'lucide-react'
 
 export default function Home() {
-  const { 
-    levels, 
-    lessons, 
-    userProgress, 
-    loading, 
-    getCurrentLevelAndLesson, 
-    getLessonsForLevel,
-    isLessonCompleted 
-  } = useLearningProgress()
-
-  const { currentLevel, currentLesson } = getCurrentLevelAndLesson()
-
-  if (loading) {
-    return (
-      <ProtectedRoute>
-        <div className="min-h-screen">
-          <Navigation />
-          <div className="flex items-center justify-center min-h-[60vh]">
-            <div className="text-center">
-              <div className="w-8 h-8 border-4 border-primary-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-              <p className="text-gray-600">학습 데이터를 불러오는 중...</p>
-            </div>
-          </div>
-        </div>
-      </ProtectedRoute>
-    )
-  }
-
-  const getLevelProgress = (levelId: number) => {
-    const progress = userProgress.find(p => p.level_id === levelId)
-    const levelLessons = lessons.filter(l => l.level_id === levelId)
-    const completedCount = progress?.completed_lessons.length || 0
-    const totalCount = levelLessons.length
-    return { completedCount, totalCount, percentage: totalCount > 0 ? (completedCount / totalCount) * 100 : 0 }
-  }
-
-  const getContentTypeIcon = (contentType: string) => {
-    switch (contentType) {
-      case 'hangeul': return BookOpen
-      case 'vocabulary': return Brain
-      case 'grammar': return Target
-      case 'conversation': return Users
-      case 'quiz': return Trophy
-      default: return BookOpen
+  const features = [
+    {
+      icon: BookOpen,
+      title: '한글 기초',
+      description: '한글의 자음과 모음을 체계적으로 학습하세요',
+      href: '/learn?level=basic',
+      color: 'from-blue-500 to-blue-600',
+      level: '기초'
+    },
+    {
+      icon: Brain,
+      title: '초급 과정',
+      description: '기본 어휘와 간단한 문장을 배워보세요',
+      href: '/learn?level=beginner',
+      color: 'from-green-500 to-green-600',
+      level: '초급'
+    },
+    {
+      icon: Target,
+      title: '중급 과정',
+      description: '문법과 일상 대화를 마스터하세요',
+      href: '/learn?level=intermediate',
+      color: 'from-yellow-500 to-yellow-600',
+      level: '중급'
+    },
+    {
+      icon: Trophy,
+      title: '고급 과정',
+      description: '고급 문법과 복잡한 표현을 학습하세요',
+      href: '/learn?level=advanced',
+      color: 'from-red-500 to-red-600',
+      level: '고급'
     }
-  }
+  ]
 
-  const getDifficultyColor = (difficulty: string) => {
-    switch (difficulty) {
-      case 'beginner': return 'bg-green-100 text-green-800'
-      case 'intermediate': return 'bg-yellow-100 text-yellow-800'
-      case 'advanced': return 'bg-red-100 text-red-800'
-      default: return 'bg-gray-100 text-gray-800'
+  const quickAccess = [
+    {
+      icon: BookOpen,
+      title: '한글 연습',
+      description: '자음과 모음 연습',
+      href: '/hangeul',
+      color: 'from-blue-500 to-blue-600'
+    },
+    {
+      icon: Brain,
+      title: '어휘 학습',
+      description: '단어와 표현 학습',
+      href: '/vocabulary',
+      color: 'from-green-500 to-green-600'
+    },
+    {
+      icon: Trophy,
+      title: '퀴즈 도전',
+      description: '실력 테스트',
+      href: '/quiz',
+      color: 'from-purple-500 to-purple-600'
     }
-  }
+  ]
+
+  const stats = [
+    { label: '학습 레슨', value: '30+' },
+    { label: '어휘 단어', value: '500+' },
+    { label: '퀴즈 문제', value: '100+' },
+    { label: '성공률', value: '95%' }
+  ]
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gradient-to-br from-primary-50 to-primary-100">
         <Navigation />
         
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          {/* Welcome Section */}
-          <div className="mb-8">
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">
-              한국어 학습 대시보드
-            </h1>
-            <p className="text-xl text-gray-600">
-              체계적인 단계별 학습으로 한국어를 마스터해보세요
+        {/* Hero Section */}
+        <section className="relative py-20 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center">
+              <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+                한국어 학습 허브
+              </h1>
+              <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto">
+                체계적인 단계별 학습으로 한국어를 마스터하세요.<br />
+                기초부터 고급까지, 당신의 수준에 맞는 맞춤형 학습을 제공합니다.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link
+                  href="/learn"
+                  className="btn-primary text-lg px-8 py-4 inline-flex items-center justify-center"
+                >
+                  <BookOpen className="mr-2" size={24} />
+                  학습 시작하기
+                </Link>
+                <Link
+                  href="/learn?level=basic"
+                  className="btn-secondary text-lg px-8 py-4 inline-flex items-center justify-center"
+                >
+                  <Target className="mr-2" size={24} />
+                  기초부터 시작
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Learning Levels Section */}
+        <section className="py-16 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl font-bold text-gray-900 mb-4">
+                단계별 학습 과정
+              </h2>
+              <p className="text-xl text-gray-600">
+                당신의 수준에 맞는 학습 과정을 선택하세요
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {features.map((feature, index) => {
+                const Icon = feature.icon
+                return (
+                  <Link
+                    key={index}
+                    href={feature.href}
+                    className="group relative bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden"
+                  >
+                    {/* Level Badge */}
+                    <div className="absolute top-4 right-4 z-10">
+                      <span className="bg-primary-100 text-primary-800 text-xs font-semibold px-3 py-1 rounded-full">
+                        {feature.level}
+                      </span>
+                    </div>
+
+                    {/* Gradient Background */}
+                    <div className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}></div>
+
+                    <div className="relative p-8">
+                      {/* Icon */}
+                      <div className={`w-16 h-16 bg-gradient-to-br ${feature.color} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                        <Icon className="w-8 h-8 text-white" />
+                      </div>
+
+                      {/* Content */}
+                      <h3 className="text-2xl font-bold text-gray-900 mb-3">
+                        {feature.title}
+                      </h3>
+                      <p className="text-gray-600 mb-6 leading-relaxed">
+                        {feature.description}
+                      </p>
+
+                      {/* Arrow */}
+                      <div className="flex items-center text-primary-600 font-semibold group-hover:translate-x-2 transition-transform duration-300">
+                        <span>시작하기</span>
+                        <ArrowRight className="ml-2" size={20} />
+                      </div>
+                    </div>
+                  </Link>
+                )
+              })}
+            </div>
+          </div>
+        </section>
+
+        {/* Stats Section */}
+        <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl font-bold text-gray-900 mb-4">
+                학습 통계
+              </h2>
+              <p className="text-xl text-gray-600">
+                수많은 학습자들이 함께하고 있습니다
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+              {stats.map((stat, index) => (
+                <div key={index} className="text-center">
+                  <div className="text-4xl md:text-5xl font-bold text-primary-600 mb-2">
+                    {stat.value}
+                  </div>
+                  <div className="text-lg text-gray-600">
+                    {stat.label}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Quick Access Section */}
+        <section className="py-16 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl font-bold text-gray-900 mb-4">
+                빠른 접근
+              </h2>
+              <p className="text-xl text-gray-600">
+                특정 영역을 집중적으로 학습하고 싶다면
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {quickAccess.map((item, index) => {
+                const Icon = item.icon
+                return (
+                  <Link
+                    key={index}
+                    href={item.href}
+                    className="group bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 p-8"
+                  >
+                    <div className={`w-16 h-16 bg-gradient-to-br ${item.color} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                      <Icon className="w-8 h-8 text-white" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-3">
+                      {item.title}
+                    </h3>
+                    <p className="text-gray-600 mb-6">
+                      {item.description}
+                    </p>
+                    <div className="flex items-center text-primary-600 font-semibold group-hover:translate-x-2 transition-transform duration-300">
+                      <span>바로가기</span>
+                      <ArrowRight className="ml-2" size={20} />
+                    </div>
+                  </Link>
+                )
+              })}
+            </div>
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-primary-600 to-primary-700">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-4xl font-bold text-white mb-6">
+              지금 바로 시작하세요!
+            </h2>
+            <p className="text-xl text-primary-100 mb-8">
+              체계적인 한국어 학습으로 당신의 목표를 달성하세요
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                href="/learn"
+                className="bg-white text-primary-600 hover:bg-gray-50 text-lg px-8 py-4 rounded-lg font-semibold inline-flex items-center justify-center transition-colors duration-200"
+              >
+                <BookOpen className="mr-2" size={24} />
+                전체 과정 보기
+              </Link>
+              <Link
+                href="/learn?level=basic"
+                className="border-2 border-white text-white hover:bg-white hover:text-primary-600 text-lg px-8 py-4 rounded-lg font-semibold inline-flex items-center justify-center transition-colors duration-200"
+              >
+                <Target className="mr-2" size={24} />
+                기초부터 시작
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* Footer */}
+        <footer className="bg-gray-900 text-white py-12 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto text-center">
+            <div className="flex items-center justify-center space-x-2 mb-4">
+              <div className="w-8 h-8 bg-gradient-to-r from-korean-red to-korean-blue rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-lg">한</span>
+              </div>
+              <span className="text-xl font-bold">Korean Learning Hub</span>
+            </div>
+            <p className="text-gray-400 mb-4">
+              체계적인 한국어 학습을 위한 최고의 플랫폼
+            </p>
+            <p className="text-sm text-gray-500">
+              © 2024 Korean Learning Hub. All rights reserved.
             </p>
           </div>
-
-          {/* Current Progress Overview */}
-          {currentLevel && (
-            <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-2xl font-bold text-gray-900">현재 학습 단계</h2>
-                <div className="flex items-center space-x-2">
-                  <div 
-                    className="w-4 h-4 rounded-full"
-                    style={{ backgroundColor: currentLevel.color }}
-                  ></div>
-                  <span className="font-medium text-gray-700">{currentLevel.level_name}</span>
-                </div>
-              </div>
-              <p className="text-gray-600 mb-4">{currentLevel.description}</p>
-              
-              {currentLesson && (
-                <div className="bg-primary-50 rounded-lg p-4">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h3 className="font-semibold text-primary-900">다음 학습</h3>
-                      <p className="text-primary-700">{currentLesson.title}</p>
-                    </div>
-                    <Link
-                      href={`/lessons/${currentLesson.id}`}
-                      className="btn-primary inline-flex items-center space-x-2"
-                    >
-                      <Play size={16} />
-                      <span>시작하기</span>
-                    </Link>
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Learning Levels */}
-          <div className="grid gap-6">
-            {levels.map((level) => {
-              const progress = getLevelProgress(level.id)
-              const levelLessons = getLessonsForLevel(level.id)
-              
-              return (
-                <div key={level.id} className="bg-white rounded-xl shadow-lg overflow-hidden">
-                  {/* Level Header */}
-                  <div 
-                    className="p-6 text-white"
-                    style={{ backgroundColor: level.color }}
-                  >
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <h3 className="text-2xl font-bold mb-2">{level.level_name}</h3>
-                        <p className="text-white/90">{level.description}</p>
-                      </div>
-                      <div className="text-right">
-                        <div className="text-3xl font-bold">{progress.completedCount}/{progress.totalCount}</div>
-                        <div className="text-white/80">완료된 레슨</div>
-                      </div>
-                    </div>
-                    
-                    {/* Progress Bar */}
-                    <div className="mt-4">
-                      <div className="flex justify-between text-sm mb-1">
-                        <span>진도율</span>
-                        <span>{Math.round(progress.percentage)}%</span>
-                      </div>
-                      <div className="w-full bg-white/20 rounded-full h-2">
-                        <div 
-                          className="bg-white rounded-full h-2 transition-all duration-300"
-                          style={{ width: `${progress.percentage}%` }}
-                        ></div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Lessons Grid */}
-                  <div className="p-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                      {levelLessons.map((lesson) => {
-                        const Icon = getContentTypeIcon(lesson.content_type)
-                        const isCompleted = lesson.isCompleted
-                        const isUnlocked = lesson.isUnlocked
-                        
-                        return (
-                          <div
-                            key={lesson.id}
-                            className={`relative p-4 rounded-lg border-2 transition-all duration-200 ${
-                              isCompleted 
-                                ? 'border-green-200 bg-green-50' 
-                                : isUnlocked 
-                                  ? 'border-primary-200 bg-white hover:border-primary-300 hover:shadow-md cursor-pointer' 
-                                  : 'border-gray-200 bg-gray-50 cursor-not-allowed'
-                            }`}
-                          >
-                            {/* Lesson Status Icon */}
-                            <div className="absolute top-3 right-3">
-                              {isCompleted ? (
-                                <CheckCircle className="w-5 h-5 text-green-600" />
-                              ) : !isUnlocked ? (
-                                <Lock className="w-5 h-5 text-gray-400" />
-                              ) : (
-                                <Play className="w-5 h-5 text-primary-600" />
-                              )}
-                            </div>
-
-                            {/* Content Type Icon */}
-                            <div className="flex items-center space-x-3 mb-3">
-                              <div className={`p-2 rounded-lg ${
-                                isCompleted ? 'bg-green-100' : 'bg-primary-100'
-                              }`}>
-                                <Icon className={`w-5 h-5 ${
-                                  isCompleted ? 'text-green-600' : 'text-primary-600'
-                                }`} />
-                              </div>
-                              <div>
-                                <div className="text-sm font-medium text-gray-900">
-                                  레슨 {lesson.lesson_number}
-                                </div>
-                                <div className="text-xs text-gray-500">
-                                  {lesson.content_type}
-                                </div>
-                              </div>
-                            </div>
-
-                            {/* Lesson Title */}
-                            <h4 className="font-semibold text-gray-900 mb-2">
-                              {lesson.title}
-                            </h4>
-
-                            {/* Lesson Description */}
-                            <p className="text-sm text-gray-600 mb-3">
-                              {lesson.description}
-                            </p>
-
-                            {/* Lesson Meta */}
-                            <div className="flex items-center justify-between">
-                              <div className="flex items-center space-x-2">
-                                <Clock className="w-4 h-4 text-gray-400" />
-                                <span className="text-xs text-gray-500">
-                                  {lesson.estimated_time}분
-                                </span>
-                              </div>
-                              <span className={`px-2 py-1 rounded-full text-xs font-medium ${getDifficultyColor(lesson.difficulty)}`}>
-                                {lesson.difficulty}
-                              </span>
-                            </div>
-
-                            {/* Action Button */}
-                            {isUnlocked && (
-                              <div className="mt-3">
-                                <Link
-                                  href={`/lessons/${lesson.id}`}
-                                  className={`w-full inline-flex items-center justify-center px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                                    isCompleted
-                                      ? 'bg-green-100 text-green-700 hover:bg-green-200'
-                                      : 'bg-primary-600 text-white hover:bg-primary-700'
-                                  }`}
-                                >
-                                  {isCompleted ? (
-                                    <>
-                                      <CheckCircle className="w-4 h-4 mr-2" />
-                                      완료됨
-                                    </>
-                                  ) : (
-                                    <>
-                                      <Play className="w-4 h-4 mr-2" />
-                                      시작하기
-                                    </>
-                                  )}
-                                </Link>
-                              </div>
-                            )}
-                          </div>
-                        )
-                      })}
-                    </div>
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-
-          {/* Quick Access Section */}
-          <div className="mt-12 bg-white rounded-xl shadow-lg p-6">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">빠른 접근</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <Link
-                href="/hangeul"
-                className="flex items-center space-x-4 p-4 rounded-lg border border-gray-200 hover:border-primary-300 hover:shadow-md transition-all duration-200"
-              >
-                <div className="p-3 bg-blue-100 rounded-lg">
-                  <BookOpen className="w-6 h-6 text-blue-600" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-gray-900">한글 연습</h3>
-                  <p className="text-sm text-gray-600">자음과 모음 연습</p>
-                </div>
-              </Link>
-
-              <Link
-                href="/vocabulary"
-                className="flex items-center space-x-4 p-4 rounded-lg border border-gray-200 hover:border-primary-300 hover:shadow-md transition-all duration-200"
-              >
-                <div className="p-3 bg-green-100 rounded-lg">
-                  <Brain className="w-6 h-6 text-green-600" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-gray-900">어휘 학습</h3>
-                  <p className="text-sm text-gray-600">단어와 표현 학습</p>
-                </div>
-              </Link>
-
-              <Link
-                href="/quiz"
-                className="flex items-center space-x-4 p-4 rounded-lg border border-gray-200 hover:border-primary-300 hover:shadow-md transition-all duration-200"
-              >
-                <div className="p-3 bg-purple-100 rounded-lg">
-                  <Trophy className="w-6 h-6 text-purple-600" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-gray-900">퀴즈 도전</h3>
-                  <p className="text-sm text-gray-600">실력 테스트</p>
-                </div>
-              </Link>
-            </div>
-          </div>
-        </div>
+        </footer>
       </div>
     </ProtectedRoute>
   )
