@@ -109,6 +109,37 @@ export default function AuthDebug() {
     }
   }
 
+  const testGoogleLogin = async () => {
+    setLoading(true)
+    setDebugInfo('')
+    
+    try {
+      console.log('Testing Google login...')
+      
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: window.location.origin + '/',
+          queryParams: {
+            access_type: 'offline',
+            prompt: 'consent',
+          }
+        }
+      })
+      
+      if (error) {
+        setDebugInfo(`❌ 구글 로그인 실패: ${error.message}\n상태: ${error.status}\n이름: ${error.name}`)
+      } else {
+        setDebugInfo(`✅ 구글 로그인 시작됨!\nOAuth URL: ${data?.url || 'N/A'}`)
+      }
+      
+    } catch (err) {
+      setDebugInfo(`❌ 구글 로그인 예외: ${err instanceof Error ? err.message : 'Unknown error'}`)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   useEffect(() => {
     checkAuthSettings()
   }, [user, session])
@@ -132,6 +163,14 @@ export default function AuthDebug() {
           className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 disabled:opacity-50"
         >
           {loading ? '테스트 중...' : '이메일 확인 없이 회원가입 테스트'}
+        </button>
+        
+        <button
+          onClick={testGoogleLogin}
+          disabled={loading}
+          className="px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600 disabled:opacity-50"
+        >
+          {loading ? '테스트 중...' : '구글 로그인 테스트'}
         </button>
         
         <button

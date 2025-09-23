@@ -3,12 +3,36 @@
 // Force dynamic rendering to prevent prerendering issues
 export const dynamic = 'force-dynamic'
 
+import { useEffect, useState } from 'react'
 import Navigation from '@/components/Navigation'
 import ProtectedRoute from '@/components/ProtectedRoute'
 import Link from 'next/link'
 import { BookOpen, Brain, Trophy, Users, Star, ArrowRight, Target, Award, Clock, CheckCircle } from 'lucide-react'
+import { useAuth } from '@/contexts/AuthContext'
 
 export default function Home() {
+  const { user, loading } = useAuth()
+  const [showWelcomeMessage, setShowWelcomeMessage] = useState(false)
+
+  // Handle OAuth callback and show success message
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    const urlParams = new URLSearchParams(window.location.hash.substring(1))
+    const accessToken = urlParams.get('access_token')
+    
+    if (accessToken && user) {
+      // Show success message for OAuth login
+      console.log('OAuth login successful!')
+      setShowWelcomeMessage(true)
+      
+      // Hide message after 5 seconds
+      setTimeout(() => {
+        setShowWelcomeMessage(false)
+      }, 5000)
+    }
+  }, [user])
+
   const features = [
     {
       icon: BookOpen,
@@ -79,6 +103,20 @@ export default function Home() {
     <ProtectedRoute>
       <div className="min-h-screen bg-gradient-to-br from-primary-50 to-primary-100">
         <Navigation />
+        
+        {/* Welcome Message for OAuth Login */}
+        {showWelcomeMessage && (
+          <div className="fixed top-4 right-4 z-50 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center space-x-2 animate-slide-in">
+            <CheckCircle className="w-5 h-5" />
+            <span>구글 로그인에 성공했습니다! 환영합니다!</span>
+            <button
+              onClick={() => setShowWelcomeMessage(false)}
+              className="ml-2 text-white hover:text-gray-200"
+            >
+              ×
+            </button>
+          </div>
+        )}
         
         {/* Hero Section */}
         <section className="relative py-20 px-4 sm:px-6 lg:px-8">

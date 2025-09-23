@@ -2,7 +2,8 @@
 
 import { useState } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
-import { Chrome, MessageCircle } from 'lucide-react'
+import { MessageCircle } from 'lucide-react'
+import Image from 'next/image'
 
 interface SocialLoginButtonsProps {
   mode: 'login' | 'signup'
@@ -21,11 +22,24 @@ export default function SocialLoginButtons({ mode }: SocialLoginButtonsProps) {
         console.error('Google login error:', error)
         console.error('Error details:', {
           message: error.message,
-          status: error.status
+          status: error.status,
+          name: error.name
         })
-        alert(`구글 로그인에 실패했습니다: ${error.message}`)
+        
+        // 더 자세한 에러 메시지 제공
+        let errorMessage = error.message
+        if (error.message.includes('redirect_uri_mismatch')) {
+          errorMessage = '리다이렉트 URI가 일치하지 않습니다. Supabase 설정을 확인해주세요.'
+        } else if (error.message.includes('invalid_client')) {
+          errorMessage = 'Google OAuth 클라이언트 설정이 잘못되었습니다.'
+        } else if (error.message.includes('access_denied')) {
+          errorMessage = 'Google 로그인이 취소되었습니다.'
+        }
+        
+        alert(`구글 로그인에 실패했습니다: ${errorMessage}`)
       } else {
         console.log('Google login initiated successfully')
+        // OAuth는 리다이렉트되므로 여기서는 성공 메시지를 표시하지 않음
       }
     } catch (error) {
       console.error('Google login exception:', error)
@@ -74,7 +88,13 @@ export default function SocialLoginButtons({ mode }: SocialLoginButtonsProps) {
           {loading === 'google' ? (
             <div className="w-5 h-5 border-2 border-gray-300 border-t-primary-600 rounded-full animate-spin" />
           ) : (
-            <Chrome className="w-5 h-5 text-red-500" />
+            <Image
+              src="https://developers.google.com/identity/images/g-logo.png"
+              alt="Google"
+              width={20}
+              height={20}
+              className="w-5 h-5"
+            />
           )}
           <span className="ml-3 font-medium">
             {loading === 'google' ? '로그인 중...' : 'Google로 계속하기'}
