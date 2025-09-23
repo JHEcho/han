@@ -7,6 +7,7 @@ import ProtectedRoute from '@/components/ProtectedRoute'
 import { getLessonById } from '@/lib/lessonData'
 import { ArrowLeft, Play, Pause, Volume2, CheckCircle, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
+import { useLearningProgress } from '@/hooks/useLearningProgress'
 
 export default function LessonPage() {
   const params = useParams()
@@ -15,20 +16,61 @@ export default function LessonPage() {
   
   const [lesson, setLesson] = useState<any>(null)
   const [currentContentIndex, setCurrentContentIndex] = useState(0)
-  const [isPlaying, setIsPlaying] = useState(false)
+  const [playingAudio, setPlayingAudio] = useState<string | null>(null)
   const [isCompleted, setIsCompleted] = useState(false)
+  const [isCompleting, setIsCompleting] = useState(false)
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false)
+  
+  // Initialize learning progress hook
+  const learningProgress = useLearningProgress()
+  const { completeLesson, isLessonCompleted } = learningProgress || {}
 
   useEffect(() => {
+    console.log('Loading lesson with ID:', lessonId)
     const lessonData = getLessonById(lessonId)
+    console.log('Lesson data:', lessonData)
+    
     if (lessonData) {
       setLesson(lessonData)
+      console.log('Lesson loaded:', { title: lessonData.title, contentLength: lessonData.content.length })
     } else {
+      console.log('Lesson not found, redirecting to learn page')
       router.push('/learn')
     }
   }, [lessonId, router])
 
+  // Check if lesson is completed separately
+  useEffect(() => {
+    if (lesson && isLessonCompleted) {
+      try {
+        const completed = isLessonCompleted(lessonId)
+        setIsCompleted(completed)
+        console.log('Lesson completion status:', completed)
+      } catch (error) {
+        console.error('Error checking lesson completion:', error)
+        setIsCompleted(false)
+      }
+    }
+  }, [lesson, lessonId, isLessonCompleted])
+
+  // Cleanup speech synthesis when component unmounts
+  useEffect(() => {
+    return () => {
+      if ('speechSynthesis' in window) {
+        speechSynthesis.cancel()
+      }
+    }
+  }, [])
+
   const handlePlayAudio = (text: string) => {
     if ('speechSynthesis' in window) {
+      // If the same audio is already playing, stop it
+      if (playingAudio === text) {
+        speechSynthesis.cancel()
+        setPlayingAudio(null)
+        return
+      }
+      
       // Stop any current speech
       speechSynthesis.cancel()
       
@@ -37,9 +79,9 @@ export default function LessonPage() {
       utterance.rate = 0.7
       utterance.pitch = 1.0
       
-      utterance.onstart = () => setIsPlaying(true)
-      utterance.onend = () => setIsPlaying(false)
-      utterance.onerror = () => setIsPlaying(false)
+      utterance.onstart = () => setPlayingAudio(text)
+      utterance.onend = () => setPlayingAudio(null)
+      utterance.onerror = () => setPlayingAudio(null)
       
       speechSynthesis.speak(utterance)
     } else {
@@ -48,10 +90,19 @@ export default function LessonPage() {
   }
 
   const handleNext = () => {
+    if (!lesson) {
+      console.log('Lesson not loaded yet')
+      return
+    }
+    
+    console.log('Next clicked:', { currentContentIndex, totalContent: lesson.content.length })
+    
     if (currentContentIndex < lesson.content.length - 1) {
       setCurrentContentIndex(currentContentIndex + 1)
+      console.log('Moving to next content:', currentContentIndex + 1)
     } else {
       // Lesson completed
+      console.log('Lesson completed, showing complete button')
       setIsCompleted(true)
     }
   }
@@ -62,10 +113,30 @@ export default function LessonPage() {
     }
   }
 
-  const handleCompleteLesson = () => {
-    // In a real app, you would save progress to database
-    console.log('Lesson completed:', lessonId)
-    router.push('/learn')
+  const handleCompleteLesson = async () => {
+    if (!completeLesson) {
+      console.error('completeLesson function not available')
+      return
+    }
+    
+    try {
+      setIsCompleting(true)
+      console.log('Completing lesson:', lessonId)
+      await completeLesson(lessonId)
+      setIsCompleted(true)
+      setShowSuccessMessage(true)
+      console.log('Lesson completed successfully')
+      
+      // Show success message for a moment before redirecting
+      setTimeout(() => {
+        router.push('/learn')
+      }, 2000)
+    } catch (error) {
+      console.error('Error completing lesson:', error)
+      alert('레슨 완료 중 오류가 발생했습니다.')
+    } finally {
+      setIsCompleting(false)
+    }
   }
 
   if (!lesson) {
@@ -84,12 +155,26 @@ export default function LessonPage() {
     )
   }
 
-  const currentContent = lesson.content[currentContentIndex]
+  const currentContent = lesson?.content[currentContentIndex]
 
   return (
     <ProtectedRoute>
       <div className="min-h-screen bg-gray-50">
         <Navigation />
+        
+        {/* Success Message */}
+        {showSuccessMessage && (
+          <div className="fixed top-4 right-4 z-50 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center space-x-2 animate-slide-in">
+            <CheckCircle className="w-5 h-5" />
+            <span>Lesson completed successfully!</span>
+            <button
+              onClick={() => setShowSuccessMessage(false)}
+              className="ml-2 text-white hover:text-gray-200"
+            >
+              ×
+            </button>
+          </div>
+        )}
         
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Header */}
@@ -107,9 +192,17 @@ export default function LessonPage() {
             <div className="bg-white rounded-xl shadow-lg p-6">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <h1 className="text-3xl font-bold text-gray-900 mb-2">
-                    {lesson.title}
-                  </h1>
+                  <div className="flex items-center space-x-3 mb-2">
+                    <h1 className="text-3xl font-bold text-gray-900">
+                      {lesson.title}
+                    </h1>
+                    {isCompleted && (
+                      <div className="flex items-center space-x-1 bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
+                        <CheckCircle className="w-4 h-4" />
+                        <span>Completed</span>
+                      </div>
+                    )}
+                  </div>
                   <p className="text-gray-600 mb-4">
                     {lesson.description}
                   </p>
@@ -166,7 +259,7 @@ export default function LessonPage() {
                                 className="p-2 text-primary-600 hover:bg-primary-100 rounded-full transition-colors"
                                 title="Listen to pronunciation"
                               >
-                                {isPlaying ? <Pause className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+                                {playingAudio === item.korean ? <Pause className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
                               </button>
                             </div>
                             <p className="text-gray-600 italic mb-1">{item.romanization}</p>
@@ -200,7 +293,7 @@ export default function LessonPage() {
                                   className="p-2 text-primary-600 hover:bg-primary-100 rounded-full transition-colors"
                                   title="Listen to pronunciation"
                                 >
-                                  {isPlaying ? <Pause className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+                                  {playingAudio === example.korean ? <Pause className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
                                 </button>
                               </div>
                               <p className="text-gray-600 italic mb-1">{example.romanization}</p>
@@ -222,7 +315,7 @@ export default function LessonPage() {
                                   className="p-2 text-primary-600 hover:bg-primary-100 rounded-full transition-colors"
                                   title="Listen to pronunciation"
                                 >
-                                  {isPlaying ? <Pause className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+                                  {playingAudio === pattern.example ? <Pause className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
                                 </button>
                               </div>
                               <p className="text-gray-600 italic mb-1">{pattern.romanization}</p>
@@ -248,7 +341,7 @@ export default function LessonPage() {
                                 className="p-1 text-primary-600 hover:bg-primary-100 rounded-full transition-colors"
                                 title="Listen to pronunciation"
                               >
-                                {isPlaying ? <Pause className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+                                {playingAudio === line.korean ? <Pause className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
                               </button>
                             </div>
                             <p className="text-lg font-medium text-gray-900 mb-1">{line.korean}</p>
@@ -277,7 +370,7 @@ export default function LessonPage() {
                               className="p-2 text-primary-600 hover:bg-primary-100 rounded-full transition-colors"
                               title="Listen to pronunciation"
                             >
-                              {isPlaying ? <Pause className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+                              {playingAudio === item.example ? <Pause className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
                             </button>
                           </div>
                         ))}
@@ -299,7 +392,7 @@ export default function LessonPage() {
                                 className="p-2 text-primary-600 hover:bg-primary-100 rounded-full transition-colors"
                                 title="Listen to pronunciation"
                               >
-                                {isPlaying ? <Pause className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+                                {playingAudio === example.syllable ? <Pause className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
                               </button>
                             </div>
                             <p className="text-gray-600 mb-1">{example.components}</p>
@@ -328,17 +421,41 @@ export default function LessonPage() {
             {isCompleted ? (
               <button
                 onClick={handleCompleteLesson}
-                className="flex items-center space-x-2 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                disabled={isCompleting}
+                className={`flex items-center space-x-2 px-6 py-3 rounded-lg transition-colors ${
+                  isCompleting 
+                    ? 'bg-gray-400 cursor-not-allowed' 
+                    : 'bg-green-600 hover:bg-green-700'
+                } text-white`}
               >
-                <CheckCircle className="w-4 h-4" />
-                <span>Complete Lesson</span>
+                {isCompleting ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    <span>Completing...</span>
+                  </>
+                ) : (
+                  <>
+                    <CheckCircle className="w-4 h-4" />
+                    <span>Complete Lesson</span>
+                  </>
+                )}
               </button>
             ) : (
               <button
                 onClick={handleNext}
-                className="flex items-center space-x-2 px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
+                disabled={!lesson}
+                className={`flex items-center space-x-2 px-6 py-3 rounded-lg transition-colors ${
+                  !lesson 
+                    ? 'bg-gray-400 cursor-not-allowed' 
+                    : 'bg-primary-600 hover:bg-primary-700'
+                } text-white`}
               >
-                <span>Next</span>
+                <span>
+                  {lesson && currentContentIndex < lesson.content.length - 1 
+                    ? 'Next' 
+                    : 'Complete Lesson'
+                  }
+                </span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             )}

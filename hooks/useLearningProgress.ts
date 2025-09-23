@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
 import { supabase, LearningLevel, Lesson, UserLearningProgress } from '@/lib/supabase'
 import { allLessons, getLessonsByLevel } from '@/lib/lessonData'
@@ -57,7 +57,7 @@ export function useLearningProgress() {
   }
 
   // Fetch user's learning progress
-  const fetchUserProgress = async () => {
+  const fetchUserProgress = useCallback(async () => {
     if (!user) return
 
     try {
@@ -72,10 +72,10 @@ export function useLearningProgress() {
       console.error('Error fetching user progress:', err)
       setError('Failed to fetch user progress')
     }
-  }
+  }, [user])
 
   // Initialize user progress for a level
-  const initializeUserProgress = async (levelId: number) => {
+  const initializeUserProgress = useCallback(async (levelId: number) => {
     if (!user) return
 
     try {
@@ -95,21 +95,19 @@ export function useLearningProgress() {
       console.error('Error initializing user progress:', err)
       setError('Failed to initialize user progress')
     }
-  }
+  }, [user, fetchUserProgress])
 
   // Complete a lesson
-  const completeLesson = async (lessonId: number, score: number = 100) => {
+  const completeLesson = useCallback(async (lessonId: number, score: number = 100) => {
     if (!user) return
 
     try {
-      // Get the lesson to find its level
-      const { data: lesson, error: lessonError } = await supabase
-        .from('lessons')
-        .select('level_id')
-        .eq('id', lessonId)
-        .single()
-
-      if (lessonError) throw lessonError
+      // Get the lesson from local data to find its level
+      const lesson = allLessons.find(l => l.id === lessonId)
+      if (!lesson) {
+        console.error('Lesson not found:', lessonId)
+        return
+      }
 
       // Get or create user progress for this level
       let { data: progress, error: progressError } = await supabase
@@ -141,15 +139,9 @@ export function useLearningProgress() {
       const updatedCompletedLessons = [...(progress?.completed_lessons || []), lessonId]
       const updatedTotalScore = (progress?.total_score || 0) + score
 
-      // Find next lesson
-      const { data: nextLesson } = await supabase
-        .from('lessons')
-        .select('id')
-        .eq('level_id', lesson.level_id)
-        .gt('lesson_number', lessonId)
-        .order('lesson_number')
-        .limit(1)
-        .single()
+      // Find next lesson from local data
+      const levelLessons = getLessonsByLevel(lesson.level_id)
+      const nextLesson = levelLessons.find(l => l.lesson_number > lesson.lesson_number)
 
       const { error: updateError } = await supabase
         .from('user_learning_progress')
@@ -169,7 +161,7 @@ export function useLearningProgress() {
       console.error('Error completing lesson:', err)
       setError('Failed to complete lesson')
     }
-  }
+  }, [user, fetchUserProgress, initializeUserProgress])
 
   // Get user's current level and lesson
   const getCurrentLevelAndLesson = () => {
@@ -195,11 +187,12 @@ export function useLearningProgress() {
   }
 
   // Check if a lesson is completed
-  const isLessonCompleted = (lessonId: number) => {
+  const isLessonCompleted = useCallback((lessonId: number) => {
+    if (!userProgress || userProgress.length === 0) return false
     return userProgress.some(progress => 
-      progress.completed_lessons.includes(lessonId)
+      progress.completed_lessons && progress.completed_lessons.includes(lessonId)
     )
-  }
+  }, [userProgress])
 
   // Get lessons for a specific level with progress info
   const getLessonsForLevel = (levelId: number) => {
@@ -225,8 +218,12 @@ export function useLearningProgress() {
       setLoading(false)
     }
 
-    initializeData()
-  }, [user])
+    if (user) {
+      initializeData()
+    } else {
+      setLoading(false)
+    }
+  }, [user?.id]) // Only depend on user.id to avoid unnecessary re-renders
 
   return {
     levels,
