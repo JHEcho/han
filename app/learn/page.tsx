@@ -28,10 +28,10 @@ export default function LearnPage() {
 
   // Tab configuration
   const tabs = [
-    { id: 'basic', name: '기초', level: 6, color: 'bg-blue-500', description: '한글 기초 학습' },
-    { id: 'beginner', name: '초급', level: 1, color: 'bg-green-500', description: '기본 어휘와 문장' },
-    { id: 'intermediate', name: '중급', level: 2, color: 'bg-yellow-500', description: '문법과 일상 대화' },
-    { id: 'advanced', name: '고급', level: 3, color: 'bg-red-500', description: '고급 문법과 표현' }
+    { id: 'basic', name: 'Basic', level: 6, color: 'bg-blue-500', description: 'Hangeul basics' },
+    { id: 'beginner', name: 'Beginner', level: 1, color: 'bg-green-500', description: 'Basic vocabulary and sentences' },
+    { id: 'intermediate', name: 'Intermediate', level: 2, color: 'bg-yellow-500', description: 'Grammar and daily conversations' },
+    { id: 'advanced', name: 'Advanced', level: 3, color: 'bg-red-500', description: 'Advanced grammar and expressions' }
   ]
 
   const getContentTypeIcon = (contentType: string) => {
@@ -70,7 +70,7 @@ export default function LearnPage() {
           <div className="flex items-center justify-center min-h-[60vh]">
             <div className="text-center">
               <div className="w-8 h-8 border-4 border-primary-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-              <p className="text-gray-600">학습 데이터를 불러오는 중...</p>
+              <p className="text-gray-600">Loading learning data...</p>
             </div>
           </div>
         </div>
@@ -92,10 +92,10 @@ export default function LearnPage() {
           {/* Header */}
           <div className="mb-8">
             <h1 className="text-4xl font-bold text-gray-900 mb-2">
-              단계별 학습
+              Step-by-Step Learning
             </h1>
             <p className="text-xl text-gray-600">
-              체계적인 단계별 학습으로 한국어를 마스터하세요
+              Master Korean with our systematic step-by-step learning approach
             </p>
           </div>
 
@@ -148,14 +148,14 @@ export default function LearnPage() {
                   <div className="text-3xl font-bold text-gray-900">
                     {progress.completedCount}/{progress.totalCount}
                   </div>
-                  <div className="text-gray-600">완료된 레슨</div>
+                  <div className="text-gray-600">Completed Lessons</div>
                 </div>
               </div>
               
               {/* Progress Bar */}
               <div className="mb-4">
                 <div className="flex justify-between text-sm mb-1">
-                  <span className="text-gray-600">진도율</span>
+                  <span className="text-gray-600">Progress</span>
                   <span className="font-semibold">{Math.round(progress.percentage)}%</span>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-3">
@@ -173,15 +173,15 @@ export default function LearnPage() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="text-center p-4 bg-gray-50 rounded-lg">
                   <div className="text-2xl font-bold text-gray-900">{progress.totalCount}</div>
-                  <div className="text-sm text-gray-600">총 레슨</div>
+                  <div className="text-sm text-gray-600">Total Lessons</div>
                 </div>
                 <div className="text-center p-4 bg-gray-50 rounded-lg">
                   <div className="text-2xl font-bold text-gray-900">{progress.completedCount}</div>
-                  <div className="text-sm text-gray-600">완료된 레슨</div>
+                  <div className="text-sm text-gray-600">Completed Lessons</div>
                 </div>
                 <div className="text-center p-4 bg-gray-50 rounded-lg">
                   <div className="text-2xl font-bold text-gray-900">{progress.totalCount - progress.completedCount}</div>
-                  <div className="text-sm text-gray-600">남은 레슨</div>
+                  <div className="text-sm text-gray-600">Remaining Lessons</div>
                 </div>
               </div>
             </div>
@@ -190,17 +190,17 @@ export default function LearnPage() {
           {/* Lessons Grid */}
           <div className="bg-white rounded-xl shadow-lg p-6">
             <h3 className="text-2xl font-bold text-gray-900 mb-6">
-              {currentTab?.name} 레슨 목록
+              {currentTab?.name} Lesson List
             </h3>
             
             {levelLessons.length === 0 ? (
               <div className="text-center py-12">
                 <BookOpen className="w-16 h-16 text-gray-400 mx-auto mb-4" />
                 <h4 className="text-xl font-semibold text-gray-600 mb-2">
-                  레슨이 없습니다
+                  No Lessons Available
                 </h4>
                 <p className="text-gray-500">
-                  이 단계의 레슨이 아직 준비되지 않았습니다.
+                  Lessons for this level are not yet prepared.
                 </p>
               </div>
             ) : (
@@ -243,7 +243,7 @@ export default function LearnPage() {
                         </div>
                         <div>
                           <div className="text-sm font-medium text-gray-900">
-                            레슨 {lesson.lesson_number}
+                            Lesson {lesson.lesson_number}
                           </div>
                           <div className="text-xs text-gray-500 capitalize">
                             {lesson.content_type}
@@ -266,7 +266,7 @@ export default function LearnPage() {
                         <div className="flex items-center space-x-2">
                           <Clock className="w-4 h-4 text-gray-400" />
                           <span className="text-xs text-gray-500">
-                            {lesson.estimated_time}분
+                            {lesson.estimated_time} min
                           </span>
                         </div>
                         <span className={`px-2 py-1 rounded-full text-xs font-medium ${getDifficultyColor(lesson.difficulty)}`}>
@@ -287,12 +287,12 @@ export default function LearnPage() {
                           {isCompleted ? (
                             <>
                               <CheckCircle className="w-4 h-4 mr-2" />
-                              완료됨
+                              Completed
                             </>
                           ) : (
                             <>
                               <Play className="w-4 h-4 mr-2" />
-                              시작하기
+                              Start Learning
                             </>
                           )}
                         </Link>
@@ -312,13 +312,13 @@ export default function LearnPage() {
               </div>
               <div>
                 <h4 className="font-semibold text-blue-900 mb-2">
-                  학습 팁
+                  Learning Tips
                 </h4>
                 <ul className="text-sm text-blue-800 space-y-1">
-                  <li>• 레슨은 순서대로 완료하는 것을 권장합니다</li>
-                  <li>• 각 레슨을 완료하면 다음 레슨이 자동으로 잠금 해제됩니다</li>
-                  <li>• 퀴즈 레슨에서 높은 점수를 받으면 추가 점수를 획득할 수 있습니다</li>
-                  <li>• 궁금한 점이 있으면 언제든지 이전 레슨을 다시 학습할 수 있습니다</li>
+                  <li>• We recommend completing lessons in order</li>
+                  <li>• Each completed lesson automatically unlocks the next one</li>
+                  <li>• High scores in quiz lessons earn you additional points</li>
+                  <li>• You can always review previous lessons if you have questions</li>
                 </ul>
               </div>
             </div>

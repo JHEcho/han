@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
 import { supabase, LearningLevel, Lesson, UserLearningProgress } from '@/lib/supabase'
+import { allLessons, getLessonsByLevel } from '@/lib/lessonData'
 
 export function useLearningProgress() {
   const { user } = useAuth()
@@ -31,19 +32,24 @@ export function useLearningProgress() {
   // Fetch lessons for a specific level
   const fetchLessons = async (levelId?: number) => {
     try {
-      let query = supabase
-        .from('lessons')
-        .select('*')
-        .order('lesson_number')
-
-      if (levelId) {
-        query = query.eq('level_id', levelId)
-      }
-
-      const { data, error } = await query
-
-      if (error) throw error
-      setLessons(data || [])
+      // Use local lesson data instead of database
+      const localLessons = levelId ? getLessonsByLevel(levelId) : allLessons
+      
+      // Convert to database format
+      const formattedLessons: Lesson[] = localLessons.map(lesson => ({
+        id: lesson.id,
+        level_id: lesson.level_id,
+        lesson_number: lesson.lesson_number,
+        title: lesson.title,
+        description: lesson.description,
+        content_type: lesson.content_type,
+        difficulty: lesson.difficulty,
+        estimated_time: lesson.estimated_time,
+        is_unlocked: true, // All lessons are unlocked for demo
+        created_at: new Date().toISOString()
+      }))
+      
+      setLessons(formattedLessons)
     } catch (err) {
       console.error('Error fetching lessons:', err)
       setError('Failed to fetch lessons')
