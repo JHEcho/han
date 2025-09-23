@@ -21,15 +21,45 @@ export default function ConnectionTest() {
       console.log('URL:', process.env.NEXT_PUBLIC_SUPABASE_URL)
       console.log('Key exists:', !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)
       
-      // Test basic connection with hangeul table
+      // First test: Check if API key is valid by making a simple request
+      try {
+        const { data: testData, error: testError } = await supabase
+          .from('hangeul')
+          .select('count')
+          .limit(1)
+
+        if (testError) {
+          console.error('API Key test error:', testError)
+          
+          // Check for specific API key errors
+          if (testError.message.includes('Invalid API key')) {
+            setError(`API 키 오류: ${testError.message}\n\n해결 방법:\n1. Supabase 대시보드에서 새로운 API 키 확인\n2. .env.local 파일에 올바른 키 설정\n3. 개발 서버 재시작`)
+          } else if (testError.message.includes('JWT')) {
+            setError(`JWT 토큰 오류: ${testError.message}\n\nAPI 키가 만료되었거나 형식이 잘못되었습니다.`)
+          } else {
+            setError(`데이터베이스 오류: ${testError.message}`)
+          }
+          setStatus('error')
+          return
+        }
+
+        console.log('API Key is valid!')
+      } catch (apiErr) {
+        console.error('API Key validation failed:', apiErr)
+        setError(`API 키 검증 실패: ${apiErr instanceof Error ? apiErr.message : 'Unknown error'}`)
+        setStatus('error')
+        return
+      }
+      
+      // Second test: Try to access hangeul table
       const { data, error } = await supabase
         .from('hangeul')
         .select('*')
         .limit(1)
 
       if (error) {
-        console.error('Supabase error:', error)
-        setError(`Database Error: ${error.message}`)
+        console.error('Table access error:', error)
+        setError(`테이블 접근 오류: ${error.message}\n\n테이블이 존재하지 않거나 권한이 없습니다.`)
         setStatus('error')
         return
       }
@@ -51,7 +81,7 @@ export default function ConnectionTest() {
       
     } catch (err) {
       console.error('Connection error:', err)
-      setError(`Connection Error: ${err instanceof Error ? err.message : 'Unknown error'}`)
+      setError(`연결 오류: ${err instanceof Error ? err.message : 'Unknown error'}`)
       setStatus('error')
     }
   }
