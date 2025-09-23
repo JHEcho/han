@@ -68,20 +68,56 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   const resetPassword = async (email: string) => {
+    // 환경에 따른 리다이렉트 URL 설정
+    const getRedirectUrl = () => {
+      if (typeof window === 'undefined') return '/auth/reset-password'
+      
+      const origin = window.location.origin
+      
+      // Vercel 배포 환경인지 확인
+      if (origin.includes('vercel.app') || origin.includes('your-domain.com')) {
+        return origin + '/auth/reset-password'
+      }
+      
+      // 로컬 개발 환경
+      return origin + '/auth/reset-password'
+    }
+    
+    const redirectUrl = getRedirectUrl()
+    console.log('Password reset redirect URL:', redirectUrl)
+    
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/auth/reset-password`,
+      redirectTo: redirectUrl,
     })
     return { error }
   }
 
   const signInWithGoogle = async () => {
     console.log('AuthContext: Initiating Google OAuth...')
-    console.log('Redirect URL:', `${window.location.origin}/`)
+    
+    // 환경에 따른 리다이렉트 URL 설정
+    const getRedirectUrl = () => {
+      if (typeof window === 'undefined') return '/'
+      
+      const origin = window.location.origin
+      console.log('Current origin:', origin)
+      
+      // Vercel 배포 환경인지 확인
+      if (origin.includes('vercel.app') || origin.includes('your-domain.com')) {
+        return origin + '/'
+      }
+      
+      // 로컬 개발 환경
+      return origin + '/'
+    }
+    
+    const redirectUrl = getRedirectUrl()
+    console.log('Redirect URL:', redirectUrl)
     
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}/`,
+        redirectTo: redirectUrl,
       }
     })
     
@@ -95,12 +131,40 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   const signInWithKakao = async () => {
+    console.log('AuthContext: Initiating Kakao OAuth...')
+    
+    // 환경에 따른 리다이렉트 URL 설정
+    const getRedirectUrl = () => {
+      if (typeof window === 'undefined') return '/'
+      
+      const origin = window.location.origin
+      console.log('Current origin:', origin)
+      
+      // Vercel 배포 환경인지 확인
+      if (origin.includes('vercel.app') || origin.includes('your-domain.com')) {
+        return origin + '/'
+      }
+      
+      // 로컬 개발 환경
+      return origin + '/'
+    }
+    
+    const redirectUrl = getRedirectUrl()
+    console.log('Redirect URL:', redirectUrl)
+    
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'kakao',
       options: {
-        redirectTo: `${window.location.origin}/`,
+        redirectTo: redirectUrl,
       }
     })
+    
+    if (error) {
+      console.error('AuthContext: Kakao OAuth error:', error)
+    } else {
+      console.log('AuthContext: Kakao OAuth initiated successfully')
+    }
+    
     return { error }
   }
 
