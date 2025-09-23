@@ -15,14 +15,21 @@ export default function SocialLoginButtons({ mode }: SocialLoginButtonsProps) {
   const handleGoogleLogin = async () => {
     setLoading('google')
     try {
+      console.log('Starting Google login...')
       const { error } = await signInWithGoogle()
       if (error) {
-        console.error('Google login error:', error.message)
-        alert('구글 로그인에 실패했습니다: ' + error.message)
+        console.error('Google login error:', error)
+        console.error('Error details:', {
+          message: error.message,
+          status: error.status
+        })
+        alert(`구글 로그인에 실패했습니다: ${error.message}`)
+      } else {
+        console.log('Google login initiated successfully')
       }
     } catch (error) {
-      console.error('Google login error:', error)
-      alert('구글 로그인 중 오류가 발생했습니다.')
+      console.error('Google login exception:', error)
+      alert('구글 로그인 중 오류가 발생했습니다: ' + (error as Error).message)
     } finally {
       setLoading(null)
     }

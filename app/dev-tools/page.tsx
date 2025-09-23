@@ -15,6 +15,7 @@ import LoginTest from '@/components/dev-tools/LoginTest'
 import EmailTest from '@/components/dev-tools/EmailTest'
 import SimpleSignupTest from '@/components/dev-tools/SimpleSignupTest'
 import AuthDebug from '@/components/dev-tools/AuthDebug'
+import GoogleOAuthTest from '@/components/dev-tools/GoogleOAuthTest'
 
 export default function DevToolsPage() {
   const [activeTab, setActiveTab] = useState('connection')
@@ -27,6 +28,7 @@ export default function DevToolsPage() {
     { id: 'email', name: '이메일 테스트', component: <EmailTest /> },
     { id: 'simple', name: '간단 테스트', component: <SimpleSignupTest /> },
     { id: 'debug', name: '인증 디버그', component: <AuthDebug /> },
+    { id: 'google-oauth', name: '구글 OAuth 테스트', component: <GoogleOAuthTest /> },
   ]
 
   // 개발 환경에서만 접근 가능
