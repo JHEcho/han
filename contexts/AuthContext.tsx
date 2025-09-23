@@ -183,12 +183,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return { error }
     } catch (err) {
       console.error('AuthContext: Google OAuth exception:', err)
+      // AuthError 타입과 호환되도록 간단한 에러 객체 반환
+      const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred'
       return { 
         error: {
-          message: err instanceof Error ? err.message : 'Unknown error occurred',
+          message: errorMessage,
           status: 500,
           name: 'OAuthException'
-        }
+        } as any
       }
     }
   }
