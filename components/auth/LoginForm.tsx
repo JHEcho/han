@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
 import { Eye, EyeOff, Mail, Lock } from 'lucide-react'
+import SocialLoginButtons from './SocialLoginButtons'
 
 interface LoginFormProps {
   onToggleMode: () => void
@@ -110,6 +111,11 @@ export default function LoginForm({ onToggleMode, onForgotPassword }: LoginFormP
           {loading ? 'Signing In...' : 'Sign In'}
         </button>
       </form>
+
+      {/* Social Login Buttons */}
+      <div className="mt-6">
+        <SocialLoginButtons mode="login" />
+      </div>
 
       <div className="mt-6 text-center">
         <p className="text-gray-600">

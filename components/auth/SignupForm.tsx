@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
 import { Eye, EyeOff, Mail, Lock, User } from 'lucide-react'
+import SocialLoginButtons from './SocialLoginButtons'
 
 interface SignupFormProps {
   onToggleMode: () => void
@@ -166,6 +167,11 @@ export default function SignupForm({ onToggleMode }: SignupFormProps) {
           {loading ? 'Creating Account...' : 'Create Account'}
         </button>
       </form>
+
+      {/* Social Login Buttons */}
+      <div className="mt-6">
+        <SocialLoginButtons mode="signup" />
+      </div>
 
       <div className="mt-6 text-center">
         <p className="text-gray-600">

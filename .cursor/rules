@@ -1,0 +1,282 @@
+# Korean Learning Hub - Cursor Rules
+
+## Project Overview
+This is a Korean language learning platform built with Next.js 14, TypeScript, Tailwind CSS, and Supabase. The app helps foreigners learn Korean through interactive lessons, vocabulary building, and quizzes.
+
+## Tech Stack
+- **Framework**: Next.js 14 with App Router
+- **Language**: TypeScript (strict mode)
+- **Styling**: Tailwind CSS with custom Korean theme colors
+- **Database**: Supabase (PostgreSQL)
+- **Authentication**: Supabase Auth
+- **Icons**: Lucide React
+- **Animations**: Framer Motion
+- **Audio**: Web Speech API
+
+## Code Style & Standards
+
+### TypeScript
+- Use strict TypeScript with proper type definitions
+- Define interfaces for all data structures (Hangeul, Vocabulary, Quiz, UserProgress)
+- Use type-safe Supabase client operations
+- Prefer type assertions over `any` type
+- Export types from `lib/supabase.ts` for consistency
+
+### React/Next.js
+- Use functional components with hooks
+- Follow Next.js 14 App Router conventions
+- Use `'use client'` directive only when necessary for client-side features
+- Implement proper error boundaries and loading states
+- Use React.memo for performance optimization when needed
+
+### File Structure
+```
+app/                    # Next.js App Router pages
+├── auth/              # Authentication pages
+├── dev-tools/         # Development utilities
+├── hangeul/           # Korean alphabet learning
+├── quiz/              # Quiz system
+└── vocabulary/        # Vocabulary learning
+
+components/            # Reusable UI components
+├── auth/              # Authentication components
+├── dev-tools/         # Development components
+├── Navigation.tsx     # Main navigation
+└── ProtectedRoute.tsx # Route protection
+
+contexts/              # React contexts
+├── AuthContext.tsx    # Authentication state
+
+hooks/                 # Custom React hooks
+├── useUserProgress.ts # User progress tracking
+
+lib/                   # Utility libraries
+├── supabase.ts        # Supabase client & types
+```
+
+### Naming Conventions
+- **Files**: PascalCase for components (`LoginForm.tsx`), camelCase for utilities (`useUserProgress.ts`)
+- **Components**: PascalCase (`KoreanCard`, `QuizQuestion`)
+- **Functions**: camelCase (`getUserProgress`, `calculateScore`)
+- **Constants**: UPPER_SNAKE_CASE (`MAX_QUIZ_QUESTIONS`)
+- **Database**: snake_case for tables and columns (`user_progress`, `created_at`)
+
+### Korean Language Content
+- Store Korean text in proper Unicode format
+- Include romanization for pronunciation
+- Use consistent romanization system (Revised Romanization of Korean)
+- Provide English translations and explanations
+- Include cultural context when relevant
+
+## Database Schema Guidelines
+
+### Tables
+- `hangeul`: Korean alphabet characters with pronunciation
+- `vocabulary`: Korean words with English translations
+- `quiz`: Quiz questions with multiple choice answers
+- `user_progress`: Individual learning progress tracking
+- `user_favorites`: User's favorite vocabulary words
+
+### Data Types
+- Use proper Korean text encoding (UTF-8)
+- Store romanization as separate fields
+- Use enums for categories and difficulty levels
+- Implement proper foreign key relationships
+
+## Component Guidelines
+
+### Authentication Components
+- Use Supabase Auth for all authentication
+- Implement proper form validation
+- Handle loading and error states
+- Provide clear user feedback
+- Support password reset functionality
+
+### Learning Components
+- Make components interactive and engaging
+- Include audio pronunciation features
+- Implement progress tracking
+- Use animations for better UX (Framer Motion)
+- Ensure accessibility compliance
+
+### Quiz Components
+- Implement timer functionality
+- Provide immediate feedback
+- Show correct answers with explanations
+- Track user performance
+- Support different question types
+
+## Styling Guidelines
+
+### Tailwind CSS
+- Use the custom Korean theme colors:
+  - `korean-red`: #cd2e3a
+  - `korean-blue`: #0047a0
+  - `primary-*`: Blue color palette
+- Use Korean font family: `font-korean` (Noto Sans KR)
+- Implement responsive design for all screen sizes
+- Use consistent spacing and typography
+- Apply smooth animations and transitions
+
+### Design Principles
+- Clean, modern interface suitable for learning
+- High contrast for readability
+- Consistent color scheme throughout
+- Mobile-first responsive design
+- Accessible color combinations
+
+## Development Guidelines
+
+### Environment Variables
+- Use `NEXT_PUBLIC_` prefix for client-side variables
+- Store Supabase credentials securely
+- Provide fallback values for development
+- Document all required environment variables
+
+### Error Handling
+- Implement proper error boundaries
+- Use try-catch blocks for async operations
+- Provide user-friendly error messages
+- Log errors appropriately for debugging
+- Handle network failures gracefully
+
+### Performance
+- Optimize images and assets
+- Use Next.js Image component
+- Implement proper caching strategies
+- Minimize bundle size
+- Use dynamic imports when appropriate
+
+### Testing
+- Write unit tests for utility functions
+- Test authentication flows
+- Validate Korean language content
+- Test responsive design
+- Ensure accessibility compliance
+
+## Korean Language Specific Rules
+
+### Content Guidelines
+- Use proper Korean grammar and spelling
+- Include cultural context in explanations
+- Provide accurate romanization
+- Use appropriate honorifics when needed
+- Include example sentences for vocabulary
+
+### Audio Features
+- Implement text-to-speech for pronunciation
+- Use Web Speech API for Korean language
+- Provide audio controls (play, pause, repeat)
+- Handle audio loading states
+- Support different speech rates
+
+### Learning Progression
+- Organize content by difficulty levels
+- Track user progress accurately
+- Provide appropriate feedback
+- Implement spaced repetition concepts
+- Support different learning styles
+
+## Security Guidelines
+
+### Authentication
+- Use Supabase Row Level Security (RLS)
+- Validate user permissions
+- Protect sensitive user data
+- Implement proper session management
+- Handle authentication errors securely
+
+### Data Protection
+- Sanitize user inputs
+- Validate all form data
+- Use HTTPS for all communications
+- Implement proper CORS policies
+- Follow GDPR compliance guidelines
+
+## Deployment Guidelines
+
+### Environment Setup
+- Configure production environment variables
+- Set up proper database migrations
+- Configure email services for authentication
+- Set up monitoring and logging
+- Implement proper error tracking
+
+### Performance Optimization
+- Enable Next.js optimizations
+- Configure proper caching headers
+- Optimize database queries
+- Implement CDN for static assets
+- Monitor performance metrics
+
+## Code Review Checklist
+
+### Before Committing
+- [ ] TypeScript compilation passes
+- [ ] ESLint rules are satisfied
+- [ ] Korean content is accurate
+- [ ] Responsive design works on all devices
+- [ ] Authentication flows work correctly
+- [ ] Database operations are secure
+- [ ] Error handling is implemented
+- [ ] Performance is optimized
+- [ ] Accessibility standards are met
+
+### Code Quality
+- [ ] Components are properly typed
+- [ ] Functions are well-documented
+- [ ] Code follows established patterns
+- [ ] No console.log statements in production
+- [ ] Proper error boundaries are in place
+- [ ] Loading states are handled
+- [ ] User feedback is provided
+
+## Common Patterns
+
+### Supabase Operations
+```typescript
+// Always handle errors and loading states
+const { data, error, loading } = await supabase
+  .from('table_name')
+  .select('*')
+  .eq('column', value)
+
+if (error) {
+  console.error('Error:', error.message)
+  return
+}
+```
+
+### Korean Content Structure
+```typescript
+interface KoreanWord {
+  korean: string        // 한글
+  romanization: string  // 로마자 표기
+  english: string       // English translation
+  category: string      // Word category
+  difficulty: 'beginner' | 'intermediate' | 'advanced'
+}
+```
+
+### Component Structure
+```typescript
+interface ComponentProps {
+  // Define all props with proper types
+}
+
+export default function Component({ prop1, prop2 }: ComponentProps) {
+  // Component logic
+  return (
+    // JSX with proper accessibility attributes
+  )
+}
+```
+
+## Resources
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Supabase Documentation](https://supabase.com/docs)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+- [Korean Language Learning Resources](https://www.korean.go.kr)
+- [Revised Romanization of Korean](https://en.wikipedia.org/wiki/Revised_Romanization_of_Korean)
+
+Remember: This is an educational platform, so prioritize user experience, accessibility, and accurate Korean language content. Always test with real Korean language learners and native speakers when possible.
