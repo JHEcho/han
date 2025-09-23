@@ -27,10 +27,24 @@ export default function LessonPage() {
     }
   }, [lessonId, router])
 
-  const handlePlayAudio = (audioFile: string) => {
-    // In a real app, you would play the audio file
-    console.log('Playing audio:', audioFile)
-    setIsPlaying(!isPlaying)
+  const handlePlayAudio = (text: string) => {
+    if ('speechSynthesis' in window) {
+      // Stop any current speech
+      speechSynthesis.cancel()
+      
+      const utterance = new SpeechSynthesisUtterance(text)
+      utterance.lang = 'ko-KR'
+      utterance.rate = 0.7
+      utterance.pitch = 1.0
+      
+      utterance.onstart = () => setIsPlaying(true)
+      utterance.onend = () => setIsPlaying(false)
+      utterance.onerror = () => setIsPlaying(false)
+      
+      speechSynthesis.speak(utterance)
+    } else {
+      console.log('Speech synthesis not supported')
+    }
   }
 
   const handleNext = () => {
@@ -147,14 +161,13 @@ export default function LessonPage() {
                           <div key={index} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
                             <div className="flex items-center justify-between mb-2">
                               <h4 className="text-lg font-semibold text-gray-900">{item.korean}</h4>
-                              {item.audio && (
-                                <button
-                                  onClick={() => handlePlayAudio(item.audio)}
-                                  className="p-2 text-primary-600 hover:bg-primary-100 rounded-full transition-colors"
-                                >
-                                  {isPlaying ? <Pause className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
-                                </button>
-                              )}
+                              <button
+                                onClick={() => handlePlayAudio(item.korean)}
+                                className="p-2 text-primary-600 hover:bg-primary-100 rounded-full transition-colors"
+                                title="Listen to pronunciation"
+                              >
+                                {isPlaying ? <Pause className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+                              </button>
                             </div>
                             <p className="text-gray-600 italic mb-1">{item.romanization}</p>
                             <p className="text-gray-800">{item.english}</p>
@@ -180,7 +193,16 @@ export default function LessonPage() {
                           <h4 className="font-semibold text-gray-900">Examples:</h4>
                           {currentContent.data.grammar.examples.map((example: any, index: number) => (
                             <div key={index} className="border border-gray-200 rounded-lg p-4">
-                              <p className="text-lg font-medium text-gray-900 mb-1">{example.korean}</p>
+                              <div className="flex items-center justify-between mb-2">
+                                <p className="text-lg font-medium text-gray-900">{example.korean}</p>
+                                <button
+                                  onClick={() => handlePlayAudio(example.korean)}
+                                  className="p-2 text-primary-600 hover:bg-primary-100 rounded-full transition-colors"
+                                  title="Listen to pronunciation"
+                                >
+                                  {isPlaying ? <Pause className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+                                </button>
+                              </div>
                               <p className="text-gray-600 italic mb-1">{example.romanization}</p>
                               <p className="text-gray-800">{example.english}</p>
                             </div>
@@ -193,7 +215,16 @@ export default function LessonPage() {
                           {currentContent.data.grammar.patterns.map((pattern: any, index: number) => (
                             <div key={index} className="border border-gray-200 rounded-lg p-4">
                               <h4 className="font-semibold text-gray-900 mb-2">{pattern.name}</h4>
-                              <p className="text-lg font-medium text-gray-900 mb-1">{pattern.example}</p>
+                              <div className="flex items-center justify-between mb-2">
+                                <p className="text-lg font-medium text-gray-900">{pattern.example}</p>
+                                <button
+                                  onClick={() => handlePlayAudio(pattern.example)}
+                                  className="p-2 text-primary-600 hover:bg-primary-100 rounded-full transition-colors"
+                                  title="Listen to pronunciation"
+                                >
+                                  {isPlaying ? <Pause className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+                                </button>
+                              </div>
                               <p className="text-gray-600 italic mb-1">{pattern.romanization}</p>
                               <p className="text-gray-800">{pattern.english}</p>
                             </div>
@@ -212,14 +243,13 @@ export default function LessonPage() {
                           <div key={index} className="border border-gray-200 rounded-lg p-4">
                             <div className="flex items-center justify-between mb-2">
                               <span className="font-semibold text-primary-600">{line.speaker}:</span>
-                              {line.audio && (
-                                <button
-                                  onClick={() => handlePlayAudio(line.audio)}
-                                  className="p-1 text-primary-600 hover:bg-primary-100 rounded-full transition-colors"
-                                >
-                                  <Volume2 className="w-4 h-4" />
-                                </button>
-                              )}
+                              <button
+                                onClick={() => handlePlayAudio(line.korean)}
+                                className="p-1 text-primary-600 hover:bg-primary-100 rounded-full transition-colors"
+                                title="Listen to pronunciation"
+                              >
+                                {isPlaying ? <Pause className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+                              </button>
                             </div>
                             <p className="text-lg font-medium text-gray-900 mb-1">{line.korean}</p>
                             <p className="text-gray-600 italic mb-1">{line.romanization}</p>
@@ -241,7 +271,14 @@ export default function LessonPage() {
                           <div key={index} className="border border-gray-200 rounded-lg p-4 text-center hover:shadow-md transition-shadow">
                             <div className="text-3xl font-bold text-gray-900 mb-2">{item.char}</div>
                             <p className="text-gray-600 font-medium mb-1">{item.sound}</p>
-                            <p className="text-sm text-gray-500">{item.example}</p>
+                            <p className="text-sm text-gray-500 mb-3">{item.example}</p>
+                            <button
+                              onClick={() => handlePlayAudio(item.example)}
+                              className="p-2 text-primary-600 hover:bg-primary-100 rounded-full transition-colors"
+                              title="Listen to pronunciation"
+                            >
+                              {isPlaying ? <Pause className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+                            </button>
                           </div>
                         ))}
                       </div>
@@ -255,7 +292,16 @@ export default function LessonPage() {
                       <div className="space-y-3">
                         {currentContent.data.examples.map((example: any, index: number) => (
                           <div key={index} className="border border-gray-200 rounded-lg p-4">
-                            <p className="text-lg font-medium text-gray-900 mb-1">{example.syllable}</p>
+                            <div className="flex items-center justify-between mb-2">
+                              <p className="text-lg font-medium text-gray-900">{example.syllable}</p>
+                              <button
+                                onClick={() => handlePlayAudio(example.syllable)}
+                                className="p-2 text-primary-600 hover:bg-primary-100 rounded-full transition-colors"
+                                title="Listen to pronunciation"
+                              >
+                                {isPlaying ? <Pause className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+                              </button>
+                            </div>
                             <p className="text-gray-600 mb-1">{example.components}</p>
                             <p className="text-gray-800">{example.meaning}</p>
                           </div>

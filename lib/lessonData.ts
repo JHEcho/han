@@ -32,20 +32,20 @@ export const basicLessons: LessonContent[] = [
           title: "Basic Consonants",
           text: "Korean has 14 basic consonants. Let's learn them one by one:",
           consonants: [
-            { char: 'ㄱ', sound: 'g/k', example: '가방 (bag)' },
-            { char: 'ㄴ', sound: 'n', example: '나무 (tree)' },
-            { char: 'ㄷ', sound: 'd/t', example: '다리 (bridge)' },
-            { char: 'ㄹ', sound: 'r/l', example: '라면 (ramen)' },
-            { char: 'ㅁ', sound: 'm', example: '마음 (heart)' },
-            { char: 'ㅂ', sound: 'b/p', example: '바다 (sea)' },
-            { char: 'ㅅ', sound: 's', example: '사과 (apple)' },
-            { char: 'ㅇ', sound: 'ng', example: '아이 (child)' },
-            { char: 'ㅈ', sound: 'j', example: '자동차 (car)' },
-            { char: 'ㅊ', sound: 'ch', example: '차 (tea)' },
-            { char: 'ㅋ', sound: 'k', example: '코 (nose)' },
-            { char: 'ㅌ', sound: 't', example: '토끼 (rabbit)' },
-            { char: 'ㅍ', sound: 'p', example: '파 (green onion)' },
-            { char: 'ㅎ', sound: 'h', example: '하늘 (sky)' }
+            { char: 'ㄱ', sound: 'g/k', example: '가방' },
+            { char: 'ㄴ', sound: 'n', example: '나무' },
+            { char: 'ㄷ', sound: 'd/t', example: '다리' },
+            { char: 'ㄹ', sound: 'r/l', example: '라면' },
+            { char: 'ㅁ', sound: 'm', example: '마음' },
+            { char: 'ㅂ', sound: 'b/p', example: '바다' },
+            { char: 'ㅅ', sound: 's', example: '사과' },
+            { char: 'ㅇ', sound: 'ng', example: '아이' },
+            { char: 'ㅈ', sound: 'j', example: '자동차' },
+            { char: 'ㅊ', sound: 'ch', example: '차' },
+            { char: 'ㅋ', sound: 'k', example: '코' },
+            { char: 'ㅌ', sound: 't', example: '토끼' },
+            { char: 'ㅍ', sound: 'p', example: '파' },
+            { char: 'ㅎ', sound: 'h', example: '하늘' }
           ]
         }
       }
@@ -67,12 +67,12 @@ export const basicLessons: LessonContent[] = [
           title: "Basic Vowels",
           text: "Korean has 6 basic vowels. Let's learn them:",
           vowels: [
-            { char: 'ㅏ', sound: 'a', example: '아버지 (father)' },
-            { char: 'ㅓ', sound: 'eo', example: '어머니 (mother)' },
-            { char: 'ㅗ', sound: 'o', example: '오늘 (today)' },
-            { char: 'ㅜ', sound: 'u', example: '우유 (milk)' },
-            { char: 'ㅡ', sound: 'eu', example: '으름 (grape)' },
-            { char: 'ㅣ', sound: 'i', example: '이름 (name)' }
+            { char: 'ㅏ', sound: 'a', example: '아버지' },
+            { char: 'ㅓ', sound: 'eo', example: '어머니' },
+            { char: 'ㅗ', sound: 'o', example: '오늘' },
+            { char: 'ㅜ', sound: 'u', example: '우유' },
+            { char: 'ㅡ', sound: 'eu', example: '으름' },
+            { char: 'ㅣ', sound: 'i', example: '이름' }
           ]
         }
       }
