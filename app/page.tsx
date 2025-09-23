@@ -36,67 +36,67 @@ export default function Home() {
   const features = [
     {
       icon: BookOpen,
-      title: '한글 기초',
-      description: '한글의 자음과 모음을 체계적으로 학습하세요',
+      title: 'Hangeul Basics',
+      description: 'Learn Korean consonants and vowels systematically',
       href: '/learn?level=basic',
       color: 'from-blue-500 to-blue-600',
-      level: '기초'
+      level: 'Basic'
     },
     {
       icon: Brain,
-      title: '초급 과정',
-      description: '기본 어휘와 간단한 문장을 배워보세요',
+      title: 'Beginner Course',
+      description: 'Learn basic vocabulary and simple sentences',
       href: '/learn?level=beginner',
       color: 'from-green-500 to-green-600',
-      level: '초급'
+      level: 'Beginner'
     },
     {
       icon: Target,
-      title: '중급 과정',
-      description: '문법과 일상 대화를 마스터하세요',
+      title: 'Intermediate Course',
+      description: 'Master grammar and daily conversations',
       href: '/learn?level=intermediate',
       color: 'from-yellow-500 to-yellow-600',
-      level: '중급'
+      level: 'Intermediate'
     },
     {
       icon: Trophy,
-      title: '고급 과정',
-      description: '고급 문법과 복잡한 표현을 학습하세요',
+      title: 'Advanced Course',
+      description: 'Learn advanced grammar and complex expressions',
       href: '/learn?level=advanced',
       color: 'from-red-500 to-red-600',
-      level: '고급'
+      level: 'Advanced'
     }
   ]
 
   const quickAccess = [
     {
       icon: BookOpen,
-      title: '한글 연습',
-      description: '자음과 모음 연습',
+      title: 'Hangeul Practice',
+      description: 'Practice consonants and vowels',
       href: '/hangeul',
       color: 'from-blue-500 to-blue-600'
     },
     {
       icon: Brain,
-      title: '어휘 학습',
-      description: '단어와 표현 학습',
+      title: 'Vocabulary Learning',
+      description: 'Learn words and expressions',
       href: '/vocabulary',
       color: 'from-green-500 to-green-600'
     },
     {
       icon: Trophy,
-      title: '퀴즈 도전',
-      description: '실력 테스트',
+      title: 'Quiz Challenge',
+      description: 'Test your skills',
       href: '/quiz',
       color: 'from-purple-500 to-purple-600'
     }
   ]
 
   const stats = [
-    { label: '학습 레슨', value: '30+' },
-    { label: '어휘 단어', value: '500+' },
-    { label: '퀴즈 문제', value: '100+' },
-    { label: '성공률', value: '95%' }
+    { label: 'Learning Lessons', value: '30+' },
+    { label: 'Vocabulary Words', value: '500+' },
+    { label: 'Quiz Questions', value: '100+' },
+    { label: 'Success Rate', value: '95%' }
   ]
 
   return (
@@ -108,7 +108,7 @@ export default function Home() {
         {showWelcomeMessage && (
           <div className="fixed top-4 right-4 z-50 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center space-x-2 animate-slide-in">
             <CheckCircle className="w-5 h-5" />
-            <span>구글 로그인에 성공했습니다! 환영합니다!</span>
+            <span>Google login successful! Welcome!</span>
             <button
               onClick={() => setShowWelcomeMessage(false)}
               className="ml-2 text-white hover:text-gray-200"
@@ -123,11 +123,11 @@ export default function Home() {
           <div className="max-w-7xl mx-auto">
             <div className="text-center">
               <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
-                한국어 학습 허브
+                Korean Learning Hub
               </h1>
               <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto">
-                체계적인 단계별 학습으로 한국어를 마스터하세요.<br />
-                기초부터 고급까지, 당신의 수준에 맞는 맞춤형 학습을 제공합니다.
+                Master Korean with our systematic step-by-step learning approach.<br />
+                From beginner to advanced, we provide personalized learning tailored to your level.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
@@ -135,14 +135,14 @@ export default function Home() {
                   className="btn-primary text-lg px-8 py-4 inline-flex items-center justify-center"
                 >
                   <BookOpen className="mr-2" size={24} />
-                  학습 시작하기
+                  Start Learning
                 </Link>
                 <Link
                   href="/learn?level=basic"
                   className="btn-secondary text-lg px-8 py-4 inline-flex items-center justify-center"
                 >
                   <Target className="mr-2" size={24} />
-                  기초부터 시작
+                  Start from Basics
                 </Link>
               </div>
             </div>
@@ -154,10 +154,10 @@ export default function Home() {
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-4xl font-bold text-gray-900 mb-4">
-                단계별 학습 과정
+                Step-by-Step Learning Courses
               </h2>
               <p className="text-xl text-gray-600">
-                당신의 수준에 맞는 학습 과정을 선택하세요
+                Choose the learning course that matches your level
               </p>
             </div>
 
@@ -196,7 +196,7 @@ export default function Home() {
 
                       {/* Arrow */}
                       <div className="flex items-center text-primary-600 font-semibold group-hover:translate-x-2 transition-transform duration-300">
-                        <span>시작하기</span>
+                        <span>Get Started</span>
                         <ArrowRight className="ml-2" size={20} />
                       </div>
                     </div>
@@ -212,10 +212,10 @@ export default function Home() {
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-4xl font-bold text-gray-900 mb-4">
-                학습 통계
+                Learning Statistics
               </h2>
               <p className="text-xl text-gray-600">
-                수많은 학습자들이 함께하고 있습니다
+                Join thousands of learners worldwide
               </p>
             </div>
 
@@ -239,10 +239,10 @@ export default function Home() {
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-4xl font-bold text-gray-900 mb-4">
-                빠른 접근
+                Quick Access
               </h2>
               <p className="text-xl text-gray-600">
-                특정 영역을 집중적으로 학습하고 싶다면
+                Focus on specific areas you want to learn
               </p>
             </div>
 
@@ -265,7 +265,7 @@ export default function Home() {
                       {item.description}
                     </p>
                     <div className="flex items-center text-primary-600 font-semibold group-hover:translate-x-2 transition-transform duration-300">
-                      <span>바로가기</span>
+                      <span>Go Now</span>
                       <ArrowRight className="ml-2" size={20} />
                     </div>
                   </Link>
@@ -279,10 +279,10 @@ export default function Home() {
         <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-primary-600 to-primary-700">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-4xl font-bold text-white mb-6">
-              지금 바로 시작하세요!
+              Start Learning Now!
             </h2>
             <p className="text-xl text-primary-100 mb-8">
-              체계적인 한국어 학습으로 당신의 목표를 달성하세요
+              Achieve your goals with systematic Korean learning
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
@@ -290,14 +290,14 @@ export default function Home() {
                 className="bg-white text-primary-600 hover:bg-gray-50 text-lg px-8 py-4 rounded-lg font-semibold inline-flex items-center justify-center transition-colors duration-200"
               >
                 <BookOpen className="mr-2" size={24} />
-                전체 과정 보기
+                View All Courses
               </Link>
               <Link
                 href="/learn?level=basic"
                 className="border-2 border-white text-white hover:bg-white hover:text-primary-600 text-lg px-8 py-4 rounded-lg font-semibold inline-flex items-center justify-center transition-colors duration-200"
               >
                 <Target className="mr-2" size={24} />
-                기초부터 시작
+                Start from Basics
               </Link>
             </div>
           </div>
@@ -313,7 +313,7 @@ export default function Home() {
               <span className="text-xl font-bold">Korean Learning Hub</span>
             </div>
             <p className="text-gray-400 mb-4">
-              체계적인 한국어 학습을 위한 최고의 플랫폼
+              The best platform for systematic Korean learning
             </p>
             <p className="text-sm text-gray-500">
               © 2024 Korean Learning Hub. All rights reserved.
