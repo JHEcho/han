@@ -51,3 +51,46 @@ export interface UserProgress {
   total_score: number
   last_updated: string
 }
+
+export interface LearningLevel {
+  id: number
+  level_name: string
+  level_order: number
+  description: string
+  color: string
+  created_at: string
+}
+
+export interface Lesson {
+  id: number
+  level_id: number
+  lesson_number: number
+  title: string
+  description: string
+  content_type: 'hangeul' | 'vocabulary' | 'grammar' | 'conversation' | 'quiz'
+  difficulty: 'beginner' | 'intermediate' | 'advanced'
+  estimated_time: number
+  is_unlocked: boolean
+  created_at: string
+}
+
+export interface UserLearningProgress {
+  id: number
+  user_id: string
+  level_id: number
+  current_lesson_id: number | null
+  completed_lessons: number[]
+  total_score: number
+  level_completed_at: string | null
+  created_at: string
+  updated_at: string
+}
+
+export interface LessonContent {
+  id: number
+  lesson_id: number
+  content_type: 'text' | 'image' | 'audio' | 'video' | 'interactive'
+  content_data: Record<string, any>
+  order_index: number
+  created_at: string
+}
