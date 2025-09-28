@@ -680,42 +680,55 @@ export const intermediateLessons: LessonContent[] = [
   }
 ]
 
-// Advanced Level Lessons
+// Advanced Level Lessons - Grammar Usage, Real-life Conversations, and Social Topics
 export const advancedLessons: LessonContent[] = [
+  // 1. 기본 문법 활용 Lessons (5개)
   {
     id: 30,
     lesson_number: 1,
-    title: "Complex Sentence Structures",
-    description: "Learn advanced Korean sentence patterns and conjunctions",
+    title: "다양한 시제 표현",
+    description: "Learn various tenses in Korean: past, present, and future",
     content_type: 'grammar',
     difficulty: 'advanced',
-    estimated_time: 35,
+    estimated_time: 25,
     level_id: 3,
     content: [
       {
         type: 'text',
         data: {
-          title: "Complex Sentence Patterns",
-          text: "Learn how to create complex sentences in Korean:",
+          title: "Korean Tenses - Past, Present, Future",
+          text: "Master different tenses to express time accurately in Korean:",
           grammar: {
             patterns: [
               {
-                name: "~면서 (while doing)",
-                example: "음악을 들으면서 공부해요.",
-                romanization: "eumageul deureumyeonseo gongbuhaeyo.",
-                english: "I study while listening to music."
+                name: "Past Tense (~았/었어요)",
+                example: "어제 영화를 봤어요.",
+                romanization: "eoje yeonghwareul bwasseoyo.",
+                english: "I watched a movie yesterday."
               },
               {
-                name: "~기 때문에 (because)",
-                example: "비가 오기 때문에 집에 있어요.",
-                romanization: "biga ogi ttaemune jibe isseoyo.",
-                english: "I'm staying home because it's raining."
+                name: "Present Tense (~어요/아요)",
+                example: "지금 공부해요.",
+                romanization: "jigeum gongbuhaeyo.",
+                english: "I am studying now."
               },
               {
-                name: "~ㄴ/은 후에 (after doing)",
-                example: "밥을 먹은 후에 산책해요.",
-                romanization: "babeul meogeun hue sanchaekhaeyo.",
-                english: "I take a walk after eating."
+                name: "Present Progressive (~고 있어요)",
+                example: "지금 밥을 먹고 있어요.",
+                romanization: "jigeum babeul meokgo isseoyo.",
+                english: "I am eating rice now."
+              },
+              {
+                name: "Future Tense (~(으)ㄹ 거예요)",
+                example: "내일 친구를 만날 거예요.",
+                romanization: "naeil chingureul mannal geoyeyo.",
+                english: "I will meet my friend tomorrow."
+              },
+              {
+                name: "Future Intent (~(으)려고 해요)",
+                example: "한국어를 배우려고 해요.",
+                romanization: "hangukeoreul baeuryeogo haeyo.",
+                english: "I intend to learn Korean."
               }
             ]
           }
@@ -726,29 +739,614 @@ export const advancedLessons: LessonContent[] = [
   {
     id: 31,
     lesson_number: 2,
-    title: "Business Korean",
-    description: "Learn formal business expressions and email writing",
-    content_type: 'conversation',
+    title: "자주 쓰는 동사와 형용사",
+    description: "Essential verbs and adjectives for daily communication",
+    content_type: 'vocabulary',
     difficulty: 'advanced',
-    estimated_time: 40,
+    estimated_time: 22,
     level_id: 3,
     content: [
       {
         type: 'text',
         data: {
-          title: "Business Korean Expressions",
-          text: "Essential expressions for business situations:",
+          title: "Essential Verbs and Adjectives",
+          text: "Master the most commonly used verbs and adjectives in Korean:",
           vocabulary: [
-            { korean: '회의', romanization: 'hoeui', english: 'meeting', audio: 'hoeui.mp3' },
-            { korean: '프레젠테이션', romanization: 'peurejenteisyeon', english: 'presentation', audio: 'presentation.mp3' },
-            { korean: '계약서', romanization: 'gyeyakseo', english: 'contract', audio: 'gyeyakseo.mp3' },
-            { korean: '협상', romanization: 'hyeopsang', english: 'negotiation', audio: 'hyeopsang.mp3' },
-            { korean: '제안서', romanization: 'jeanseo', english: 'proposal', audio: 'jeanseo.mp3' }
-          ],
-          expressions: [
-            { korean: '안녕하세요. 저는 [회사명]의 [이름]입니다.', romanization: 'annyeonghaseyo. jeoneun [hoesaname]ui [ireum]imnida.', english: 'Hello. I am [Name] from [Company].' },
-            { korean: '회의 시간을 조정해 주시겠어요?', romanization: 'hoeui siganeul jojeonghae jusigesseoyo?', english: 'Could you please adjust the meeting time?' },
-            { korean: '제안서를 검토해 보겠습니다.', romanization: 'jeanseoreul geomtohae bogetseumnida.', english: 'I will review the proposal.' }
+            { korean: '하다', romanization: 'hada', english: 'to do', audio: 'hada.mp3' },
+            { korean: '가다', romanization: 'gada', english: 'to go', audio: 'gada.mp3' },
+            { korean: '오다', romanization: 'oda', english: 'to come', audio: 'oda.mp3' },
+            { korean: '보다', romanization: 'boda', english: 'to see/watch', audio: 'boda.mp3' },
+            { korean: '듣다', romanization: 'deutda', english: 'to listen/hear', audio: 'deutda.mp3' },
+            { korean: '말하다', romanization: 'malhada', english: 'to speak', audio: 'malhada.mp3' },
+            { korean: '생각하다', romanization: 'saenggakhada', english: 'to think', audio: 'saenggakhada.mp3' },
+            { korean: '좋다', romanization: 'jota', english: 'to be good', audio: 'jota.mp3' },
+            { korean: '나쁘다', romanization: 'nappeuda', english: 'to be bad', audio: 'nappeuda.mp3' },
+            { korean: '크다', romanization: 'keuda', english: 'to be big', audio: 'keuda.mp3' },
+            { korean: '작다', romanization: 'jakda', english: 'to be small', audio: 'jakda.mp3' },
+            { korean: '예쁘다', romanization: 'yeppeuda', english: 'to be pretty', audio: 'yeppeuda.mp3' }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    id: 32,
+    lesson_number: 3,
+    title: "과거 시제 ~았/었어요",
+    description: "Master the past tense conjugation patterns",
+    content_type: 'grammar',
+    difficulty: 'advanced',
+    estimated_time: 20,
+    level_id: 3,
+    content: [
+      {
+        type: 'text',
+        data: {
+          title: "Past Tense ~았/었어요",
+          text: "Learn how to conjugate verbs and adjectives in the past tense:",
+          grammar: {
+            pattern: "Verb/Adjective stem + ~았어요 (if stem ends with ㅏ, ㅗ) / ~었어요 (if stem ends with other vowels)",
+            examples: [
+              {
+                korean: "어제 친구를 만났어요.",
+                romanization: "eoje chingureul mannasseoyo.",
+                english: "I met my friend yesterday."
+              },
+              {
+                korean: "지난 주에 영화를 봤어요.",
+                romanization: "jinan jue yeonghwareul bwasseoyo.",
+                english: "I watched a movie last week."
+              },
+              {
+                korean: "어제 날씨가 좋았어요.",
+                romanization: "eoje nalssiga joasseoyo.",
+                english: "The weather was good yesterday."
+              },
+              {
+                korean: "그 영화가 재미있었어요.",
+                romanization: "geu yeonghwaga jaemiisseosseoyo.",
+                english: "That movie was interesting."
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    id: 33,
+    lesson_number: 4,
+    title: "진행형 ~고 있어요",
+    description: "Learn to express ongoing actions with progressive tense",
+    content_type: 'grammar',
+    difficulty: 'advanced',
+    estimated_time: 18,
+    level_id: 3,
+    content: [
+      {
+        type: 'text',
+        data: {
+          title: "Progressive Tense ~고 있어요",
+          text: "Express actions that are currently happening:",
+          grammar: {
+            pattern: "Verb stem + ~고 있어요",
+            examples: [
+              {
+                korean: "지금 공부하고 있어요.",
+                romanization: "jigeum gongbuhago isseoyo.",
+                english: "I am studying now."
+              },
+              {
+                korean: "친구가 기다리고 있어요.",
+                romanization: "chinguga gidarigo isseoyo.",
+                english: "My friend is waiting."
+              },
+              {
+                korean: "엄마가 요리하고 있어요.",
+                romanization: "eommaga yorihago isseoyo.",
+                english: "Mom is cooking."
+              },
+              {
+                korean: "비가 오고 있어요.",
+                romanization: "biga ogo isseoyo.",
+                english: "It is raining."
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    id: 34,
+    lesson_number: 5,
+    title: "장소와 교통 표현",
+    description: "Learn location and transportation expressions",
+    content_type: 'vocabulary',
+    difficulty: 'advanced',
+    estimated_time: 25,
+    level_id: 3,
+    content: [
+      {
+        type: 'text',
+        data: {
+          title: "Location and Transportation Expressions",
+          text: "Essential vocabulary for describing places and using transportation:",
+          vocabulary: [
+            { korean: '위에', romanization: 'wie', english: 'on top of', audio: 'wie.mp3' },
+            { korean: '아래에', romanization: 'araee', english: 'under/below', audio: 'araee.mp3' },
+            { korean: '앞에', romanization: 'ape', english: 'in front of', audio: 'ape.mp3' },
+            { korean: '뒤에', romanization: 'dwie', english: 'behind', audio: 'dwie.mp3' },
+            { korean: '옆에', romanization: 'yeope', english: 'next to', audio: 'yeope.mp3' },
+            { korean: '안에', romanization: 'ane', english: 'inside', audio: 'ane.mp3' },
+            { korean: '밖에', romanization: 'bakke', english: 'outside', audio: 'bakke.mp3' },
+            { korean: '지하철', romanization: 'jihacheol', english: 'subway', audio: 'jihacheol.mp3' },
+            { korean: '버스', romanization: 'beoseu', english: 'bus', audio: 'beoseu.mp3' },
+            { korean: '택시', romanization: 'taeksi', english: 'taxi', audio: 'taeksi.mp3' },
+            { korean: '도보로', romanization: 'doboro', english: 'on foot', audio: 'doboro.mp3' },
+            { korean: '자전거로', romanization: 'jajeongeoro', english: 'by bicycle', audio: 'jajeongeoro.mp3' }
+          ]
+        }
+      }
+    ]
+  },
+
+  // 2. 실생활 대화 Lessons (5개)
+  {
+    id: 35,
+    lesson_number: 6,
+    title: "복잡한 문장 연결하기",
+    description: "Learn to connect complex sentences using conjunctions",
+    content_type: 'conversation',
+    difficulty: 'advanced',
+    estimated_time: 28,
+    level_id: 3,
+    content: [
+      {
+        type: 'text',
+        data: {
+          title: "Connecting Complex Sentences",
+          text: "Master the art of connecting sentences for fluent conversation:",
+          conversation: [
+            {
+              speaker: "A",
+              korean: "한국어를 배우고 있는데, 아직 어려워요.",
+              romanization: "hangukeoreul baeugo inneunde, ajik eoryeowoyo.",
+              english: "I'm learning Korean, but it's still difficult."
+            },
+            {
+              speaker: "B",
+              korean: "그래도 열심히 공부하시니까, 곧 잘하게 될 거예요.",
+              romanization: "geuraedo yeolsimhi gongbuhasinikka, got jalhage doel geoyeyo.",
+              english: "Even so, since you're studying hard, you'll get good at it soon."
+            },
+            {
+              speaker: "A",
+              korean: "한국 친구들과 대화하고 싶어서, 더 열심히 해야겠어요.",
+              romanization: "hanguk chingudeulgwa daehwahago sipeoseo, deo yeolsimhi haeyagesseoyo.",
+              english: "I want to have conversations with Korean friends, so I need to study harder."
+            },
+            {
+              speaker: "B",
+              korean: "맞아요. 실생활에서 사용해보면 더 빨리 늘어요.",
+              romanization: "majayo. silsaenghwareseo sayonghaebomyeon deo ppalli neureoyo.",
+              english: "That's right. If you use it in real life, you'll improve faster."
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    id: 36,
+    lesson_number: 7,
+    title: "존댓말과 반말 사용법",
+    description: "Learn formal and informal speech levels",
+    content_type: 'conversation',
+    difficulty: 'advanced',
+    estimated_time: 25,
+    level_id: 3,
+    content: [
+      {
+        type: 'text',
+        data: {
+          title: "Formal and Informal Speech Levels",
+          text: "Understand when to use formal (존댓말) and informal (반말) speech:",
+          conversation: [
+            {
+              speaker: "Formal (존댓말)",
+              korean: "안녕하세요. 오늘 날씨가 좋네요.",
+              romanization: "annyeonghaseyo. oneul nalssiga joneyo.",
+              english: "Hello. The weather is nice today."
+            },
+            {
+              speaker: "Informal (반말)",
+              korean: "안녕. 오늘 날씨 좋네.",
+              romanization: "annyeong. oneul nalssi jone.",
+              english: "Hi. The weather is nice today."
+            },
+            {
+              speaker: "Formal (존댓말)",
+              korean: "어디 가세요?",
+              romanization: "eodi gaseyo?",
+              english: "Where are you going?"
+            },
+            {
+              speaker: "Informal (반말)",
+              korean: "어디 가?",
+              romanization: "eodi ga?",
+              english: "Where are you going?"
+            },
+            {
+              speaker: "Formal (존댓말)",
+              korean: "감사합니다.",
+              romanization: "gamsahamnida.",
+              english: "Thank you."
+            },
+            {
+              speaker: "Informal (반말)",
+              korean: "고마워.",
+              romanization: "gomawo.",
+              english: "Thanks."
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    id: 37,
+    lesson_number: 8,
+    title: "이유와 원인 표현 ~아서/어서",
+    description: "Learn to express reasons and causes",
+    content_type: 'grammar',
+    difficulty: 'advanced',
+    estimated_time: 22,
+    level_id: 3,
+    content: [
+      {
+        type: 'text',
+        data: {
+          title: "Expressing Reasons and Causes ~아서/어서",
+          text: "Master expressing reasons and causes in Korean:",
+          grammar: {
+            pattern: "Verb/Adjective stem + ~아서 (if stem ends with ㅏ, ㅗ) / ~어서 (if stem ends with other vowels)",
+            examples: [
+              {
+                korean: "비가 와서 집에 있었어요.",
+                romanization: "biga waseo jibe isseosseoyo.",
+                english: "I stayed home because it was raining."
+              },
+              {
+                korean: "배가 고파서 밥을 먹었어요.",
+                romanization: "baega gopaseo babeul meogeosseoyo.",
+                english: "I ate because I was hungry."
+              },
+              {
+                korean: "시간이 없어서 택시를 탔어요.",
+                romanization: "sigani eopseoseo taeksireul tasseoyo.",
+                english: "I took a taxi because I didn't have time."
+              },
+              {
+                korean: "한국어가 어려워서 매일 공부해요.",
+                romanization: "hangukeoga eoryeowoseo maeil gongbuhaeyo.",
+                english: "I study every day because Korean is difficult."
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    id: 38,
+    lesson_number: 9,
+    title: "청유 표현 ~읍시다",
+    description: "Learn to make suggestions and invitations",
+    content_type: 'conversation',
+    difficulty: 'advanced',
+    estimated_time: 20,
+    level_id: 3,
+    content: [
+      {
+        type: 'text',
+        data: {
+          title: "Making Suggestions ~읍시다",
+          text: "Learn to make polite suggestions and invitations:",
+          conversation: [
+            {
+              speaker: "A",
+              korean: "오늘 날씨가 좋으니까 산책하러 갑시다.",
+              romanization: "oneul nalssiga joeunikka sanchaekareo gapsida.",
+              english: "Since the weather is nice today, let's go for a walk."
+            },
+            {
+              speaker: "B",
+              korean: "좋은 아이디어네요. 어디로 갈까요?",
+              romanization: "joeun aideoneyo. eodiro galkkayo?",
+              english: "That's a good idea. Where should we go?"
+            },
+            {
+              speaker: "A",
+              korean: "공원에 가서 앉아서 이야기합시다.",
+              romanization: "gongwone gaseo anjaseo iyagihapsida.",
+              english: "Let's go to the park and sit down to talk."
+            },
+            {
+              speaker: "B",
+              korean: "그리고 커피도 마시면서 휴식을 취합시다.",
+              romanization: "geurigo keopido masimyeonseo hyusigeul chwihapsida.",
+              english: "And let's rest while drinking coffee."
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    id: 39,
+    lesson_number: 10,
+    title: "변화 표현 ~게 되다",
+    description: "Learn to express changes and becoming",
+    content_type: 'grammar',
+    difficulty: 'advanced',
+    estimated_time: 23,
+    level_id: 3,
+    content: [
+      {
+        type: 'text',
+        data: {
+          title: "Expressing Changes ~게 되다",
+          text: "Master expressing changes, becoming, and transitions:",
+          grammar: {
+            pattern: "Verb stem + ~게 되다",
+            examples: [
+              {
+                korean: "한국에 오게 되었어요.",
+                romanization: "hanguge oge doeeosseoyo.",
+                english: "I came to Korea (it happened that I came)."
+              },
+              {
+                korean: "한국어를 배우게 되었어요.",
+                romanization: "hangukeoreul baeuge doeeosseoyo.",
+                english: "I started learning Korean (it happened that I learned)."
+              },
+              {
+                korean: "친구를 사귀게 되었어요.",
+                romanization: "chingureul sagwige doeeosseoyo.",
+                english: "I made friends (it happened that I made friends)."
+              },
+              {
+                korean: "한국 음식을 좋아하게 되었어요.",
+                romanization: "hanguk eumsigeul joahage doeeosseoyo.",
+                english: "I came to like Korean food (it happened that I like it)."
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+
+  // 3. 사회적/추상적 주제 대화 Lessons (5개)
+  {
+    id: 40,
+    lesson_number: 11,
+    title: "뉴스와 기사 읽기",
+    description: "Learn to read and discuss news articles",
+    content_type: 'conversation',
+    difficulty: 'advanced',
+    estimated_time: 30,
+    level_id: 3,
+    content: [
+      {
+        type: 'text',
+        data: {
+          title: "Reading News and Articles",
+          text: "Practice reading and discussing news articles in Korean:",
+          conversation: [
+            {
+              speaker: "A",
+              korean: "오늘 뉴스에서 뭐가 나왔어요?",
+              romanization: "oneul nyuseueseo mwoga nawasseoyo?",
+              english: "What was on the news today?"
+            },
+            {
+              speaker: "B",
+              korean: "날씨가 갑자기 추워졌다는 기사가 나왔어요.",
+              romanization: "nalssiga gapjagi chuwojeotdaneun gisaga nawasseoyo.",
+              english: "There was an article saying the weather suddenly got cold."
+            },
+            {
+              speaker: "A",
+              korean: "정말요? 그럼 옷을 따뜻하게 입어야겠네요.",
+              romanization: "jeongmallyo? geureom oseul ttatteushage ibeoyagessneyo.",
+              english: "Really? Then I should dress warmly."
+            },
+            {
+              speaker: "B",
+              korean: "네, 감기에 걸리지 않도록 조심하세요.",
+              romanization: "ne, gamgie geolliji anhdorok josimhaseyo.",
+              english: "Yes, be careful not to catch a cold."
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    id: 41,
+    lesson_number: 12,
+    title: "의견 표현하기",
+    description: "Learn to express opinions and viewpoints",
+    content_type: 'conversation',
+    difficulty: 'advanced',
+    estimated_time: 25,
+    level_id: 3,
+    content: [
+      {
+        type: 'text',
+        data: {
+          title: "Expressing Opinions",
+          text: "Master expressing your opinions and viewpoints:",
+          conversation: [
+            {
+              speaker: "A",
+              korean: "한국의 교육 시스템에 대해 어떻게 생각하세요?",
+              romanization: "hangugui gyoyuk siseuteme daehae eotteoke saenggakhaseyo?",
+              english: "What do you think about Korea's education system?"
+            },
+            {
+              speaker: "B",
+              korean: "저는 경쟁이 너무 치열하다고 생각해요.",
+              romanization: "jeoneun gyeongjaengi neomu chiyeolhadago saenggakaeyo.",
+              english: "I think the competition is too fierce."
+            },
+            {
+              speaker: "A",
+              korean: "그렇지만 학생들이 열심히 공부하는 것은 좋은 것 같아요.",
+              romanization: "geureochiman haksaengdeuri yeolsimhi gongbuhaneun geoseun joeun geot gatayo.",
+              english: "But I think it's good that students study hard."
+            },
+            {
+              speaker: "B",
+              korean: "맞아요. 하지만 스트레스도 많을 것 같아요.",
+              romanization: "majayo. hajiman seuteureseudo maneul geot gatayo.",
+              english: "That's true. But I think there's also a lot of stress."
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    id: 42,
+    lesson_number: 13,
+    title: "반대 의견 표현 ~기는 하지만",
+    description: "Learn to express contrasting opinions",
+    content_type: 'grammar',
+    difficulty: 'advanced',
+    estimated_time: 22,
+    level_id: 3,
+    content: [
+      {
+        type: 'text',
+        data: {
+          title: "Expressing Contrasting Opinions ~기는 하지만",
+          text: "Master expressing contrasting or opposing viewpoints:",
+          grammar: {
+            pattern: "Verb/Adjective stem + ~기는 하지만",
+            examples: [
+              {
+                korean: "한국어가 어렵기는 하지만 재미있어요.",
+                romanization: "hangukeoga eoryeopgina hajiman jaemiisseoyo.",
+                english: "Korean is difficult, but it's interesting."
+              },
+              {
+                korean: "비싸기는 하지만 품질이 좋아요.",
+                romanization: "bissagina hajiman pumjiri joayo.",
+                english: "It's expensive, but the quality is good."
+              },
+              {
+                korean: "시간이 오래 걸리기는 하지만 배울 가치가 있어요.",
+                romanization: "sigani orae geolligina hajiman baeul gachiga isseoyo.",
+                english: "It takes a long time, but it's worth learning."
+              },
+              {
+                korean: "힘들기는 하지만 포기하고 싶지 않아요.",
+                romanization: "himdeulgina hajiman pogihago sipji anayo.",
+                english: "It's hard, but I don't want to give up."
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    id: 43,
+    lesson_number: 14,
+    title: "가정 표현 ~(으)ㄴ/는 척하다",
+    description: "Learn to express pretending or acting",
+    content_type: 'grammar',
+    difficulty: 'advanced',
+    estimated_time: 20,
+    level_id: 3,
+    content: [
+      {
+        type: 'text',
+        data: {
+          title: "Expressing Pretending ~(으)ㄴ/는 척하다",
+          text: "Learn to express pretending or acting as if:",
+          grammar: {
+            pattern: "Verb stem + ~(으)ㄴ/는 척하다",
+            examples: [
+              {
+                korean: "모르는 척했어요.",
+                romanization: "moreuneun cheokaesseoyo.",
+                english: "I pretended not to know."
+              },
+              {
+                korean: "잠자는 척했어요.",
+                romanization: "jamjaneun cheokaesseoyo.",
+                english: "I pretended to be sleeping."
+              },
+              {
+                korean: "아픈 척했어요.",
+                romanization: "apeun cheokaesseoyo.",
+                english: "I pretended to be sick."
+              },
+              {
+                korean: "재미있는 척했어요.",
+                romanization: "jaemiinneun cheokaesseoyo.",
+                english: "I pretended it was interesting."
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    id: 44,
+    lesson_number: 15,
+    title: "격식체 표현",
+    description: "Learn formal written and spoken expressions",
+    content_type: 'conversation',
+    difficulty: 'advanced',
+    estimated_time: 28,
+    level_id: 3,
+    content: [
+      {
+        type: 'text',
+        data: {
+          title: "Formal Expressions (격식체)",
+          text: "Master formal expressions for business and academic contexts:",
+          conversation: [
+            {
+              speaker: "Formal",
+              korean: "안녕하십니까. 저는 김민수입니다.",
+              romanization: "annyeonghasimnikka. jeoneun gim minsuimnida.",
+              english: "Hello. I am Kim Minsu."
+            },
+            {
+              speaker: "Formal",
+              korean: "오늘 회의에 참석해 주셔서 감사합니다.",
+              romanization: "oneul hoeuie chamseokhae jusyeoseo gamsahamnida.",
+              english: "Thank you for attending today's meeting."
+            },
+            {
+              speaker: "Formal",
+              korean: "제안서를 검토해 보시겠습니까?",
+              romanization: "jeanseoreul geomtohae bosigesseumnikka?",
+              english: "Would you please review the proposal?"
+            },
+            {
+              speaker: "Formal",
+              korean: "내일까지 답변을 드리겠습니다.",
+              romanization: "naeilkkaji dapbeoneul deurigesseumnida.",
+              english: "I will give you an answer by tomorrow."
+            }
           ]
         }
       }
