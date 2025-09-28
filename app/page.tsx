@@ -35,14 +35,6 @@ export default function Home() {
 
   const features = [
     {
-      icon: BookOpen,
-      title: 'Hangeul Basics',
-      description: 'Learn Korean consonants and vowels systematically',
-      href: '/learn?level=basic',
-      color: 'from-blue-500 to-blue-600',
-      level: 'Basic'
-    },
-    {
       icon: Brain,
       title: 'Beginner Course',
       description: 'Learn basic vocabulary and simple sentences',
@@ -138,11 +130,11 @@ export default function Home() {
                   Start Learning
                 </Link>
                 <Link
-                  href="/learn?level=basic"
+                  href="/hangeul"
                   className="btn-secondary text-lg px-8 py-4 inline-flex items-center justify-center"
                 >
                   <Target className="mr-2" size={24} />
-                  Start from Basics
+                  Learn Hangeul
                 </Link>
               </div>
             </div>
@@ -161,7 +153,7 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {features.map((feature, index) => {
                 const Icon = feature.icon
                 return (
@@ -293,11 +285,11 @@ export default function Home() {
                 View All Courses
               </Link>
               <Link
-                href="/learn?level=basic"
+                href="/hangeul"
                 className="border-2 border-white text-white hover:bg-white hover:text-primary-600 text-lg px-8 py-4 rounded-lg font-semibold inline-flex items-center justify-center transition-colors duration-200"
               >
                 <Target className="mr-2" size={24} />
-                Start from Basics
+                Learn Hangeul
               </Link>
             </div>
           </div>

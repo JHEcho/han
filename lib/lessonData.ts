@@ -14,102 +14,7 @@ export interface LessonContent {
   }[]
 }
 
-// Basic Level (Hangeul) Lessons
-export const basicLessons: LessonContent[] = [
-  {
-    id: 1,
-    lesson_number: 1,
-    title: "Korean Alphabet - Basic Consonants",
-    description: "Learn the basic Korean consonants: ㄱ, ㄴ, ㄷ, ㄹ, ㅁ, ㅂ, ㅅ, ㅇ, ㅈ, ㅊ, ㅋ, ㅌ, ㅍ, ㅎ",
-    content_type: 'hangeul',
-    difficulty: 'beginner',
-    estimated_time: 15,
-    level_id: 6,
-    content: [
-      {
-        type: 'text',
-        data: {
-          title: "Basic Consonants",
-          text: "Korean has 14 basic consonants. Let's learn them one by one:",
-          consonants: [
-            { char: 'ㄱ', sound: 'g/k', example: '가방' },
-            { char: 'ㄴ', sound: 'n', example: '나무' },
-            { char: 'ㄷ', sound: 'd/t', example: '다리' },
-            { char: 'ㄹ', sound: 'r/l', example: '라면' },
-            { char: 'ㅁ', sound: 'm', example: '마음' },
-            { char: 'ㅂ', sound: 'b/p', example: '바다' },
-            { char: 'ㅅ', sound: 's', example: '사과' },
-            { char: 'ㅇ', sound: 'ng', example: '아이' },
-            { char: 'ㅈ', sound: 'j', example: '자동차' },
-            { char: 'ㅊ', sound: 'ch', example: '차' },
-            { char: 'ㅋ', sound: 'k', example: '코' },
-            { char: 'ㅌ', sound: 't', example: '토끼' },
-            { char: 'ㅍ', sound: 'p', example: '파' },
-            { char: 'ㅎ', sound: 'h', example: '하늘' }
-          ]
-        }
-      }
-    ]
-  },
-  {
-    id: 2,
-    lesson_number: 2,
-    title: "Korean Alphabet - Basic Vowels",
-    description: "Learn the basic Korean vowels: ㅏ, ㅓ, ㅗ, ㅜ, ㅡ, ㅣ",
-    content_type: 'hangeul',
-    difficulty: 'beginner',
-    estimated_time: 15,
-    level_id: 6,
-    content: [
-      {
-        type: 'text',
-        data: {
-          title: "Basic Vowels",
-          text: "Korean has 6 basic vowels. Let's learn them:",
-          vowels: [
-            { char: 'ㅏ', sound: 'a', example: '아버지' },
-            { char: 'ㅓ', sound: 'eo', example: '어머니' },
-            { char: 'ㅗ', sound: 'o', example: '오늘' },
-            { char: 'ㅜ', sound: 'u', example: '우유' },
-            { char: 'ㅡ', sound: 'eu', example: '으름' },
-            { char: 'ㅣ', sound: 'i', example: '이름' }
-          ]
-        }
-      }
-    ]
-  },
-  {
-    id: 3,
-    lesson_number: 3,
-    title: "Combining Consonants and Vowels",
-    description: "Learn how to combine consonants and vowels to form Korean syllables",
-    content_type: 'hangeul',
-    difficulty: 'beginner',
-    estimated_time: 20,
-    level_id: 6,
-    content: [
-      {
-        type: 'text',
-        data: {
-          title: "Forming Syllables",
-          text: "Korean syllables are formed by combining consonants and vowels. Let's practice:",
-          examples: [
-            { syllable: '가', components: 'ㄱ + ㅏ', meaning: 'go' },
-            { syllable: '나', components: 'ㄴ + ㅏ', meaning: 'I/me' },
-            { syllable: '다', components: 'ㄷ + ㅏ', meaning: 'all' },
-            { syllable: '라', components: 'ㄹ + ㅏ', meaning: 'la (musical note)' },
-            { syllable: '마', components: 'ㅁ + ㅏ', meaning: 'horse' },
-            { syllable: '바', components: 'ㅂ + ㅏ', meaning: 'bar' },
-            { syllable: '사', components: 'ㅅ + ㅏ', meaning: 'four' },
-            { syllable: '아', components: 'ㅇ + ㅏ', meaning: 'ah' },
-            { syllable: '자', components: 'ㅈ + ㅏ', meaning: 'sleep' },
-            { syllable: '차', components: 'ㅊ + ㅏ', meaning: 'car' }
-          ]
-        }
-      }
-    ]
-  }
-]
+// Basic lessons removed - Hangeul learning is available in /hangeul page
 
 // Beginner Level Lessons
 export const beginnerLessons: LessonContent[] = [
@@ -848,7 +753,6 @@ export const advancedLessons: LessonContent[] = [
 
 // Combine all lessons
 export const allLessons: LessonContent[] = [
-  ...basicLessons,
   ...beginnerLessons,
   ...intermediateLessons,
   ...advancedLessons

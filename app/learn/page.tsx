@@ -13,7 +13,7 @@ import { BookOpen, Brain, Target, Trophy, Clock, CheckCircle, Lock, Play, ArrowR
 
 export default function LearnPage() {
   const searchParams = useSearchParams()
-  const initialLevel = searchParams.get('level') || 'basic'
+  const initialLevel = searchParams.get('level') || 'beginner'
   
   const { 
     levels, 
@@ -28,7 +28,6 @@ export default function LearnPage() {
 
   // Tab configuration
   const tabs = [
-    { id: 'basic', name: 'Basic', level: 6, color: 'bg-blue-500', description: 'Hangeul basics' },
     { id: 'beginner', name: 'Beginner', level: 1, color: 'bg-green-500', description: 'Basic vocabulary and sentences' },
     { id: 'intermediate', name: 'Intermediate', level: 2, color: 'bg-yellow-500', description: 'Grammar and daily conversations' },
     { id: 'advanced', name: 'Advanced', level: 3, color: 'bg-red-500', description: 'Advanced grammar and expressions' }
