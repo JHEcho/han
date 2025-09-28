@@ -195,6 +195,7 @@ export function useLearningProgress() {
 
   // Get progress for a specific level
   const getLevelProgress = (levelId: number) => {
+    if (!user) return null
     return userProgress.find(progress => progress.level_id === levelId)
   }
 
@@ -209,12 +210,12 @@ export function useLearningProgress() {
   // Get lessons for a specific level with progress info
   const getLessonsForLevel = (levelId: number) => {
     const levelLessons = lessons.filter(lesson => lesson.level_id === levelId)
-    const progress = getLevelProgress(levelId)
+    const progress = user ? getLevelProgress(levelId) : null
     
     return levelLessons.map(lesson => ({
       ...lesson,
-      isCompleted: isLessonCompleted(lesson.id),
-      isUnlocked: lesson.is_unlocked || (progress && progress.completed_lessons.includes(lesson.id - 1))
+      isCompleted: user ? isLessonCompleted(lesson.id) : false,
+      isUnlocked: user ? (lesson.is_unlocked || (progress && progress.completed_lessons.includes(lesson.id - 1))) : true
     }))
   }
 
@@ -222,19 +223,22 @@ export function useLearningProgress() {
   useEffect(() => {
     const initializeData = async () => {
       setLoading(true)
+      
+      // Always fetch levels and lessons (available to all users)
       await Promise.all([
         fetchLevels(),
-        fetchLessons(),
-        fetchUserProgress()
+        fetchLessons()
       ])
+      
+      // Only fetch user progress if user is logged in
+      if (user) {
+        await fetchUserProgress()
+      }
+      
       setLoading(false)
     }
 
-    if (user) {
-      initializeData()
-    } else {
-      setLoading(false)
-    }
+    initializeData()
   }, [user?.id]) // Only depend on user.id to avoid unnecessary re-renders
 
   return {

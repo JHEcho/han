@@ -98,9 +98,16 @@ export default function LessonPage() {
       
       if (koreanVoice) {
         utterance.voice = koreanVoice
-        console.log('Using Korean voice:', koreanVoice.name, 'Gender:', koreanVoice.name.includes('Female') ? 'Female' : 'Unknown')
+        console.log('🎤 Using Korean voice:', koreanVoice.name)
+        console.log('🔊 Voice details:', {
+          name: koreanVoice.name,
+          lang: koreanVoice.lang,
+          gender: koreanVoice.name.includes('Female') ? 'Female' : 'Unknown',
+          default: koreanVoice.default
+        })
       } else {
-        console.log('No Korean voice found, using default')
+        console.log('❌ No Korean voice found, using default')
+        console.log('💡 Available voices:', voices.map(v => `${v.name} (${v.lang})`))
       }
       
       utterance.onstart = () => setPlayingAudio(text)

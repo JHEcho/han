@@ -8,12 +8,16 @@ import { useSearchParams } from 'next/navigation'
 import Navigation from '@/components/Navigation'
 import ProtectedRoute from '@/components/ProtectedRoute'
 import { useLearningProgress } from '@/hooks/useLearningProgress'
+import { useAuth } from '@/contexts/AuthContext'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { BookOpen, Brain, Target, Trophy, Clock, CheckCircle, Lock, Play, ArrowRight, Star, Users } from 'lucide-react'
 
 export default function LearnPage() {
   const searchParams = useSearchParams()
   const initialLevel = searchParams.get('level') || 'beginner'
+  const router = useRouter()
+  const { user } = useAuth()
   
   const { 
     levels, 
@@ -26,11 +30,21 @@ export default function LearnPage() {
 
   const [activeTab, setActiveTab] = useState(initialLevel)
 
+  const handleLessonClick = (lessonId: number) => {
+    if (!user) {
+      // Redirect to login page if not authenticated
+      router.push('/auth')
+      return
+    }
+    // Navigate to lesson if authenticated
+    router.push(`/lessons/${lessonId}`)
+  }
+
   // Tab configuration
   const tabs = [
-    { id: 'beginner', name: 'Beginner', level: 1, color: 'bg-green-500', description: 'Basic vocabulary and sentences' },
-    { id: 'intermediate', name: 'Intermediate', level: 2, color: 'bg-yellow-500', description: 'Grammar and daily conversations' },
-    { id: 'advanced', name: 'Advanced', level: 3, color: 'bg-red-500', description: 'Advanced grammar and expressions' }
+    { id: 'beginner', name: 'Beginner', level: 1, color: 'bg-green-500', description: 'Basic Vocabulary and Sentences' },
+    { id: 'intermediate', name: 'Intermediate', level: 2, color: 'bg-yellow-500', description: 'Everyday Vocabulary' },
+    { id: 'advanced', name: 'Advanced', level: 3, color: 'bg-red-500', description: 'Daily Simple Sentences' }
   ]
 
   const getContentTypeIcon = (contentType: string) => {
@@ -54,6 +68,11 @@ export default function LearnPage() {
   }
 
   const getLevelProgress = (levelId: number) => {
+    if (!user) {
+      const levelLessons = lessons.filter(l => l.level_id === levelId)
+      return { completedCount: 0, totalCount: levelLessons.length, percentage: 0 }
+    }
+    
     const progress = userProgress.find(p => p.level_id === levelId)
     const levelLessons = lessons.filter(l => l.level_id === levelId)
     const completedCount = progress?.completed_lessons.length || 0
@@ -63,17 +82,15 @@ export default function LearnPage() {
 
   if (loading) {
     return (
-      <ProtectedRoute>
-        <div className="min-h-screen">
-          <Navigation />
-          <div className="flex items-center justify-center min-h-[60vh]">
-            <div className="text-center">
-              <div className="w-8 h-8 border-4 border-primary-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-              <p className="text-gray-600">Loading learning data...</p>
-            </div>
+      <div className="min-h-screen">
+        <Navigation />
+        <div className="flex items-center justify-center min-h-[60vh]">
+          <div className="text-center">
+            <div className="w-8 h-8 border-4 border-primary-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-gray-600">Loading learning data...</p>
           </div>
         </div>
-      </ProtectedRoute>
+      </div>
     )
   }
 
@@ -83,9 +100,8 @@ export default function LearnPage() {
   const progress = currentLevel ? getLevelProgress(currentLevel.id) : { completedCount: 0, totalCount: 0, percentage: 0 }
 
   return (
-    <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50">
-        <Navigation />
+    <div className="min-h-screen bg-gray-50">
+      <Navigation />
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Header */}
@@ -96,6 +112,13 @@ export default function LearnPage() {
             <p className="text-xl text-gray-600">
               Master Korean with our systematic step-by-step learning approach
             </p>
+            {!user && (
+              <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                <p className="text-blue-800">
+                  <strong>Sign in to start learning!</strong> You can browse lessons below, but you'll need to sign in to access the actual lesson content and track your progress.
+                </p>
+              </div>
+            )}
           </div>
 
           {/* Tabs */}
@@ -145,28 +168,32 @@ export default function LearnPage() {
                 </div>
                 <div className="text-right">
                   <div className="text-3xl font-bold text-gray-900">
-                    {progress.completedCount}/{progress.totalCount}
+                    {user ? `${progress.completedCount}/${progress.totalCount}` : `0/${progress.totalCount}`}
                   </div>
-                  <div className="text-gray-600">Completed Lessons</div>
+                  <div className="text-gray-600">
+                    {user ? 'Completed Lessons' : 'Total Lessons Available'}
+                  </div>
                 </div>
               </div>
               
               {/* Progress Bar */}
-              <div className="mb-4">
-                <div className="flex justify-between text-sm mb-1">
-                  <span className="text-gray-600">Progress</span>
-                  <span className="font-semibold">{Math.round(progress.percentage)}%</span>
+              {user && (
+                <div className="mb-4">
+                  <div className="flex justify-between text-sm mb-1">
+                    <span className="text-gray-600">Progress</span>
+                    <span className="font-semibold">{Math.round(progress.percentage)}%</span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-3">
+                    <div 
+                      className="rounded-full h-3 transition-all duration-500"
+                      style={{ 
+                        width: `${progress.percentage}%`,
+                        backgroundColor: currentLevel.color 
+                      }}
+                    ></div>
+                  </div>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-3">
-                  <div 
-                    className="rounded-full h-3 transition-all duration-500"
-                    style={{ 
-                      width: `${progress.percentage}%`,
-                      backgroundColor: currentLevel.color 
-                    }}
-                  ></div>
-                </div>
-              </div>
+              )}
 
               {/* Level Stats */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -174,14 +201,29 @@ export default function LearnPage() {
                   <div className="text-2xl font-bold text-gray-900">{progress.totalCount}</div>
                   <div className="text-sm text-gray-600">Total Lessons</div>
                 </div>
-                <div className="text-center p-4 bg-gray-50 rounded-lg">
-                  <div className="text-2xl font-bold text-gray-900">{progress.completedCount}</div>
-                  <div className="text-sm text-gray-600">Completed Lessons</div>
-                </div>
-                <div className="text-center p-4 bg-gray-50 rounded-lg">
-                  <div className="text-2xl font-bold text-gray-900">{progress.totalCount - progress.completedCount}</div>
-                  <div className="text-sm text-gray-600">Remaining Lessons</div>
-                </div>
+                {user ? (
+                  <>
+                    <div className="text-center p-4 bg-gray-50 rounded-lg">
+                      <div className="text-2xl font-bold text-gray-900">{progress.completedCount}</div>
+                      <div className="text-sm text-gray-600">Completed Lessons</div>
+                    </div>
+                    <div className="text-center p-4 bg-gray-50 rounded-lg">
+                      <div className="text-2xl font-bold text-gray-900">{progress.totalCount - progress.completedCount}</div>
+                      <div className="text-sm text-gray-600">Remaining Lessons</div>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="text-center p-4 bg-gray-50 rounded-lg">
+                      <div className="text-2xl font-bold text-gray-900">0</div>
+                      <div className="text-sm text-gray-600">Completed Lessons</div>
+                    </div>
+                    <div className="text-center p-4 bg-gray-50 rounded-lg">
+                      <div className="text-2xl font-bold text-gray-900">{progress.totalCount}</div>
+                      <div className="text-sm text-gray-600">Available to Learn</div>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           )}
@@ -275,8 +317,8 @@ export default function LearnPage() {
 
                       {/* Action Button */}
                       {isUnlocked && (
-                        <Link
-                          href={`/lessons/${lesson.id}`}
+                        <button
+                          onClick={() => handleLessonClick(lesson.id)}
                           className={`w-full inline-flex items-center justify-center px-4 py-3 rounded-lg font-semibold transition-colors ${
                             isCompleted
                               ? 'bg-green-100 text-green-700 hover:bg-green-200'
@@ -291,10 +333,10 @@ export default function LearnPage() {
                           ) : (
                             <>
                               <Play className="w-4 h-4 mr-2" />
-                              Start Learning
+                              {user ? 'Start Learning' : 'Sign In to Start'}
                             </>
                           )}
-                        </Link>
+                        </button>
                       )}
                     </div>
                   )
@@ -324,6 +366,5 @@ export default function LearnPage() {
           </div>
         </div>
       </div>
-    </ProtectedRoute>
   )
 }

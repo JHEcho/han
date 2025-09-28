@@ -124,9 +124,8 @@ export default function HangeulPage() {
   )
 
   return (
-    <ProtectedRoute>
-      <div className="min-h-screen">
-        <Navigation />
+    <div className="min-h-screen">
+      <Navigation />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
@@ -269,7 +268,6 @@ export default function HangeulPage() {
           </div>
         </div>
       </div>
-      </div>
-    </ProtectedRoute>
+    </div>
   )
 }
