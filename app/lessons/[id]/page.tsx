@@ -76,8 +76,32 @@ export default function LessonPage() {
       
       const utterance = new SpeechSynthesisUtterance(text)
       utterance.lang = 'ko-KR'
-      utterance.rate = 0.7
-      utterance.pitch = 1.0
+      utterance.rate = 0.6 // Slower rate for clearer pronunciation
+      utterance.pitch = 1.3 // Higher pitch for female voice
+      utterance.volume = 0.9 // Slightly lower volume for comfort
+      
+      // Try to select a Korean female voice
+      const voices = speechSynthesis.getVoices()
+      console.log('Available voices:', voices.map(v => ({ name: v.name, lang: v.lang })))
+      
+      const koreanFemaleVoice = voices.find(voice => 
+        voice.lang === 'ko-KR' && 
+        (voice.name.includes('Female') || voice.name.includes('여성') || 
+         voice.name.includes('Yuna') || voice.name.includes('Sora') ||
+         voice.name.includes('Nara') || voice.name.includes('Hana') ||
+         voice.name.includes('Minji') || voice.name.includes('Jiyoung') ||
+         voice.name.includes('Microsoft Heami') || voice.name.includes('Microsoft Sunhi'))
+      )
+      
+      // If no specific female voice found, try any Korean voice
+      const koreanVoice = koreanFemaleVoice || voices.find(voice => voice.lang === 'ko-KR')
+      
+      if (koreanVoice) {
+        utterance.voice = koreanVoice
+        console.log('Using Korean voice:', koreanVoice.name, 'Gender:', koreanVoice.name.includes('Female') ? 'Female' : 'Unknown')
+      } else {
+        console.log('No Korean voice found, using default')
+      }
       
       utterance.onstart = () => setPlayingAudio(text)
       utterance.onend = () => setPlayingAudio(null)
@@ -101,8 +125,8 @@ export default function LessonPage() {
       setCurrentContentIndex(currentContentIndex + 1)
       console.log('Moving to next content:', currentContentIndex + 1)
     } else {
-      // Lesson completed
-      console.log('Lesson completed, showing complete button')
+      // All content viewed, ready to complete lesson
+      console.log('All content viewed, ready to complete lesson')
       setIsCompleted(true)
     }
   }
@@ -116,6 +140,13 @@ export default function LessonPage() {
   const handleCompleteLesson = async () => {
     if (!completeLesson) {
       console.error('completeLesson function not available')
+      return
+    }
+    
+    // Check if lesson is already completed in database
+    if (isLessonCompleted && isLessonCompleted(lessonId)) {
+      console.log('Lesson already completed in database, redirecting to learn page')
+      router.push('/learn')
       return
     }
     
@@ -264,6 +295,29 @@ export default function LessonPage() {
                             </div>
                             <p className="text-gray-600 italic mb-1">{item.romanization}</p>
                             <p className="text-gray-800">{item.english}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Syllables Section */}
+                  {currentContent.data.syllables && (
+                    <div className="mb-8">
+                      <h3 className="text-xl font-semibold text-gray-900 mb-4">Syllables</h3>
+                      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        {currentContent.data.syllables.map((syllable: any, index: number) => (
+                          <div key={index} className="border border-gray-200 rounded-lg p-4 text-center hover:shadow-md transition-shadow">
+                            <div className="text-4xl font-bold text-gray-900 mb-2 font-korean">{syllable.korean}</div>
+                            <p className="text-gray-600 italic mb-1">{syllable.romanization}</p>
+                            <p className="text-gray-800 text-sm mb-3">{syllable.english}</p>
+                            <button
+                              onClick={() => handlePlayAudio(syllable.korean)}
+                              className="p-2 text-primary-600 hover:bg-primary-100 rounded-full transition-colors"
+                              title="Listen to pronunciation"
+                            >
+                              {playingAudio === syllable.korean ? <Pause className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+                            </button>
                           </div>
                         ))}
                       </div>

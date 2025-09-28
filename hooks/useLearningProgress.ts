@@ -102,6 +102,12 @@ export function useLearningProgress() {
     if (!user) return
 
     try {
+      // Check if lesson is already completed
+      if (isLessonCompleted(lessonId)) {
+        console.log('Lesson already completed:', lessonId)
+        return
+      }
+
       // Get the lesson from local data to find its level
       const lesson = allLessons.find(l => l.id === lessonId)
       if (!lesson) {
@@ -135,8 +141,14 @@ export function useLearningProgress() {
         throw progressError
       }
 
-      // Update progress
-      const updatedCompletedLessons = [...(progress?.completed_lessons || []), lessonId]
+      // Update progress - check for duplicates
+      const currentCompletedLessons = progress?.completed_lessons || []
+      if (currentCompletedLessons.includes(lessonId)) {
+        console.log('Lesson already in completed list:', lessonId)
+        return
+      }
+      
+      const updatedCompletedLessons = [...currentCompletedLessons, lessonId]
       const updatedTotalScore = (progress?.total_score || 0) + score
 
       // Find next lesson from local data

@@ -107,6 +107,19 @@ export default function VocabularyPage() {
       const utterance = new SpeechSynthesisUtterance(text)
       utterance.lang = 'ko-KR'
       utterance.rate = 0.7
+      utterance.pitch = 1.2 // Higher pitch for female voice
+      
+      // Try to select a Korean female voice
+      const voices = speechSynthesis.getVoices()
+      const koreanFemaleVoice = voices.find(voice => 
+        voice.lang === 'ko-KR' && 
+        (voice.name.includes('Female') || voice.name.includes('여성') || voice.name.includes('Yuna'))
+      )
+      
+      if (koreanFemaleVoice) {
+        utterance.voice = koreanFemaleVoice
+      }
+      
       speechSynthesis.speak(utterance)
     }
   }
