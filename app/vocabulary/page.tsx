@@ -219,8 +219,10 @@ export default function VocabularyPage() {
         </div>
 
         {/* Vocabulary Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredWords.map((word, index) => (
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          {/* Vocabulary Cards */}
+          <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredWords.map((word, index) => (
             <div
               key={index}
               className="lesson-card p-6 cursor-pointer hover:scale-105 transition-transform duration-200"
@@ -275,6 +277,24 @@ export default function VocabularyPage() {
               </button>
             </div>
           ))}
+          </div>
+          
+          {/* Google AdSense - Vertical Ad */}
+          <div className="lg:col-span-1 flex justify-center">
+            <div className="w-full max-w-[300px]">
+              <ins 
+                className="adsbygoogle"
+                style={{ display: 'block' }}
+                data-ad-client="ca-pub-4011742299641178"
+                data-ad-slot="3832863093"
+                data-ad-format="auto"
+                data-full-width-responsive="true"
+              />
+              <script dangerouslySetInnerHTML={{
+                __html: '(adsbygoogle = window.adsbygoogle || []).push({});'
+              }} />
+            </div>
+          </div>
         </div>
 
         {/* Selected Word Detail Modal */}

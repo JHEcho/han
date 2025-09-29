@@ -260,8 +260,10 @@ export default function LearnPage() {
                 </p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {levelLessons.map((lesson) => {
+              <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                {/* Lessons Grid */}
+                <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {levelLessons.map((lesson) => {
                   const Icon = getContentTypeIcon(lesson.content_type)
                   const isCompleted = lesson.isCompleted
                   const isUnlocked = lesson.isUnlocked
@@ -356,6 +358,24 @@ export default function LearnPage() {
                     </div>
                   )
                 })}
+                </div>
+                
+                {/* Google AdSense - Vertical Ad */}
+                <div className="lg:col-span-1 flex justify-center">
+                  <div className="w-full max-w-[300px]">
+                    <ins 
+                      className="adsbygoogle"
+                      style={{ display: 'block' }}
+                      data-ad-client="ca-pub-4011742299641178"
+                      data-ad-slot="3832863093"
+                      data-ad-format="auto"
+                      data-full-width-responsive="true"
+                    />
+                    <script dangerouslySetInnerHTML={{
+                      __html: '(adsbygoogle = window.adsbygoogle || []).push({});'
+                    }} />
+                  </div>
+                </div>
               </div>
             )}
           </div>

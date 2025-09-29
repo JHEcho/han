@@ -286,9 +286,11 @@ export default function LessonPage() {
           </div>
 
           {/* Lesson Content */}
-          <div className="bg-white rounded-xl shadow-lg p-8 mb-8">
-            {currentContent && (
-              <div>
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 mb-8">
+            {/* Main Content */}
+            <div className="lg:col-span-3 bg-white rounded-xl shadow-lg p-8">
+              {currentContent && (
+                <div>
                 <h2 className="text-2xl font-bold text-gray-900 mb-6">
                   {currentContent.data.title}
                 </h2>
@@ -481,6 +483,24 @@ export default function LessonPage() {
                 </div>
               </div>
             )}
+            </div>
+            
+            {/* Google AdSense - Vertical Ad */}
+            <div className="lg:col-span-1 flex justify-center">
+              <div className="w-full max-w-[300px]">
+                <ins 
+                  className="adsbygoogle"
+                  style={{ display: 'block' }}
+                  data-ad-client="ca-pub-4011742299641178"
+                  data-ad-slot="3832863093"
+                  data-ad-format="auto"
+                  data-full-width-responsive="true"
+                />
+                <script dangerouslySetInnerHTML={{
+                  __html: '(adsbygoogle = window.adsbygoogle || []).push({});'
+                }} />
+              </div>
+            </div>
           </div>
 
           {/* Navigation */}
