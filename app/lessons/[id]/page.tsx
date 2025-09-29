@@ -270,6 +270,21 @@ export default function LessonPage() {
             </div>
           </div>
 
+          {/* Google AdSense - Horizontal Ad */}
+          <div className="mb-8">
+            <ins 
+              className="adsbygoogle"
+              style={{ display: 'block' }}
+              data-ad-client="ca-pub-4011742299641178"
+              data-ad-slot="3491557099"
+              data-ad-format="auto"
+              data-full-width-responsive="true"
+            />
+            <script dangerouslySetInnerHTML={{
+              __html: '(adsbygoogle = window.adsbygoogle || []).push({});'
+            }} />
+          </div>
+
           {/* Lesson Content */}
           <div className="bg-white rounded-xl shadow-lg p-8 mb-8">
             {currentContent && (

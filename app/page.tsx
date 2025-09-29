@@ -161,6 +161,21 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Google AdSense - Horizontal Ad */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <ins 
+            className="adsbygoogle"
+            style={{ display: 'block' }}
+            data-ad-client="ca-pub-4011742299641178"
+            data-ad-slot="3491557099"
+            data-ad-format="auto"
+            data-full-width-responsive="true"
+          />
+          <script dangerouslySetInnerHTML={{
+            __html: '(adsbygoogle = window.adsbygoogle || []).push({});'
+          }} />
+        </div>
+
         {/* Learning Levels Section */}
         <section className="py-16 px-4 sm:px-6 lg:px-8">
           <div className="max-w-7xl mx-auto">

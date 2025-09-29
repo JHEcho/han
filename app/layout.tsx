@@ -66,6 +66,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        {/* Google AdSense */}
+        <script 
+          async 
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4011742299641178"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body className="antialiased">
         <AuthProvider>
           {children}
