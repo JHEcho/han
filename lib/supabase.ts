@@ -1,8 +1,20 @@
 import { createClient } from '@supabase/supabase-js'
 
-// Supabase 설정 - 프로덕션 환경에서는 항상 올바른 키 사용
-const supabaseUrl = 'https://mhagshobzzmhejpfyact.supabase.co'
-const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1oYWdzaG9ienptaGVqcGZ5YWN0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc5ODY1ODEsImV4cCI6MjA3MzU2MjU4MX0.HaeZKJL4ADSqibrLosRC7TA1FVZGJYiHjTP_xLKUc1w'
+// Supabase 설정 - 환경 변수에서 안전하게 가져오기
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+// 환경 변수 검증
+if (!supabaseUrl || !supabaseAnonKey) {
+  throw new Error('Missing required Supabase environment variables. Please check your .env.local file or Vercel environment variables.')
+}
+
+// URL 형식 검증
+try {
+  new URL(supabaseUrl)
+} catch {
+  throw new Error('Invalid Supabase URL format')
+}
 
 // Supabase 클라이언트 생성
 export const supabase = createClient(supabaseUrl, supabaseAnonKey)

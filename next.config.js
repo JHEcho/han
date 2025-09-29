@@ -1,17 +1,42 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // App Router is now stable in Next.js 14, no need for experimental flag
-  // Force all pages to be dynamically rendered
-  trailingSlash: false,
-  images: {
-    remotePatterns: [
+  // 보안 헤더 추가
+  async headers() {
+    return [
       {
-        protocol: 'https',
-        hostname: 'developers.google.com',
-        port: '',
-        pathname: '/identity/images/**',
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY',
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'origin-when-cross-origin',
+          },
+          {
+            key: 'X-XSS-Protection',
+            value: '1; mode=block',
+          },
+          {
+            key: 'Strict-Transport-Security',
+            value: 'max-age=31536000; includeSubDomains',
+          },
+          {
+            key: 'Content-Security-Policy',
+            value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.google.com https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co https://*.supabase.com; frame-src 'self' https://accounts.google.com;",
+          },
+        ],
       },
-    ],
+    ]
+  },
+  // 환경 변수 검증
+  env: {
+    CUSTOM_KEY: process.env.CUSTOM_KEY,
   },
 }
 

@@ -80,22 +80,59 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   const signUp = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: undefined, // 이메일 확인 비활성화
-      }
-    })
-    return { error }
+    // 입력 검증
+    if (!email || !password) {
+      return { error: { message: 'Email and password are required', status: 400, name: 'ValidationError' } as any }
+    }
+    
+    // 이메일 형식 검증
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) {
+      return { error: { message: 'Invalid email format', status: 400, name: 'ValidationError' } as any }
+    }
+    
+    // 비밀번호 강도 검증
+    if (password.length < 6) {
+      return { error: { message: 'Password must be at least 6 characters', status: 400, name: 'ValidationError' } as any }
+    }
+
+    try {
+      const { error } = await supabase.auth.signUp({
+        email: email.toLowerCase().trim(),
+        password,
+        options: {
+          emailRedirectTo: undefined, // 이메일 확인 비활성화
+        }
+      })
+      return { error }
+    } catch (err) {
+      console.error('Sign up error:', err)
+      return { error: { message: 'An unexpected error occurred', status: 500, name: 'SignUpError' } as any }
+    }
   }
 
   const signIn = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    })
-    return { error }
+    // 입력 검증
+    if (!email || !password) {
+      return { error: { message: 'Email and password are required', status: 400, name: 'ValidationError' } as any }
+    }
+    
+    // 이메일 형식 검증
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) {
+      return { error: { message: 'Invalid email format', status: 400, name: 'ValidationError' } as any }
+    }
+
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email: email.toLowerCase().trim(),
+        password,
+      })
+      return { error }
+    } catch (err) {
+      console.error('Sign in error:', err)
+      return { error: { message: 'An unexpected error occurred', status: 500, name: 'SignInError' } as any }
+    }
   }
 
   const signOut = async () => {
@@ -104,56 +141,70 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   const resetPassword = async (email: string) => {
-    // 환경에 따른 리다이렉트 URL 설정
-    const getRedirectUrl = () => {
-      if (typeof window === 'undefined') return '/auth/reset-password'
-      
-      const origin = window.location.origin
-      
-      // Vercel 배포 환경인지 확인
-      if (origin.includes('vercel.app') || origin.includes('your-domain.com')) {
+    // 입력 검증
+    if (!email) {
+      return { error: { message: 'Email is required', status: 400, name: 'ValidationError' } as any }
+    }
+    
+    // 이메일 형식 검증
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) {
+      return { error: { message: 'Invalid email format', status: 400, name: 'ValidationError' } as any }
+    }
+
+    try {
+      // 환경에 따른 리다이렉트 URL 설정
+      const getRedirectUrl = () => {
+        if (typeof window === 'undefined') return '/auth/reset-password'
+        
+        const origin = window.location.origin
+        
+        // Vercel 배포 환경인지 확인
+        if (origin.includes('vercel.app') || origin.includes('your-domain.com')) {
+          return origin + '/auth/reset-password'
+        }
+        
+        // 로컬 개발 환경
         return origin + '/auth/reset-password'
       }
       
-      // 로컬 개발 환경
-      return origin + '/auth/reset-password'
+      const redirectUrl = getRedirectUrl()
+      console.log('Password reset redirect URL:', redirectUrl)
+      
+      const { error } = await supabase.auth.resetPasswordForEmail(email.toLowerCase().trim(), {
+        redirectTo: redirectUrl,
+      })
+      return { error }
+    } catch (err) {
+      console.error('Password reset error:', err)
+      return { error: { message: 'An unexpected error occurred', status: 500, name: 'ResetPasswordError' } as any }
     }
-    
-    const redirectUrl = getRedirectUrl()
-    console.log('Password reset redirect URL:', redirectUrl)
-    
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: redirectUrl,
-    })
-    return { error }
   }
 
   const signInWithGoogle = async () => {
     console.log('AuthContext: Initiating Google OAuth...')
     
     try {
-      // 환경에 따른 리다이렉트 URL 설정
+      // 환경에 따른 리다이렉트 URL 설정 및 검증
       const getRedirectUrl = () => {
         if (typeof window === 'undefined') return '/'
         
         const origin = window.location.origin
         console.log('Current origin:', origin)
         
-        // Vercel 배포 환경인지 확인
-        if (origin.includes('vercel.app') || origin.includes('your-domain.com')) {
-          return origin + '/'
+        // 허용된 도메인만 사용
+        const allowedDomains = ['localhost', 'vercel.app', 'learnhangul.govinfos.com']
+        const isAllowedDomain = allowedDomains.some(domain => origin.includes(domain))
+        
+        if (!isAllowedDomain) {
+          throw new Error('Unauthorized domain for OAuth redirect')
         }
         
-        // 로컬 개발 환경
         return origin + '/'
       }
       
       const redirectUrl = getRedirectUrl()
       console.log('Redirect URL:', redirectUrl)
-      
-      // Supabase 클라이언트 상태 확인
-      console.log('Supabase client:', supabase)
-      console.log('Supabase auth:', supabase.auth)
       
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
@@ -166,24 +217,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
       })
       
-      console.log('OAuth response data:', data)
-      
       if (error) {
         console.error('AuthContext: Google OAuth error:', error)
-        console.error('Error details:', {
-          message: error.message,
-          status: error.status,
-          name: error.name
-        })
+        return { error }
       } else {
         console.log('AuthContext: Google OAuth initiated successfully')
-        console.log('OAuth URL:', data?.url)
       }
       
       return { error }
     } catch (err) {
       console.error('AuthContext: Google OAuth exception:', err)
-      // AuthError 타입과 호환되도록 간단한 에러 객체 반환
       const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred'
       return { 
         error: {
@@ -198,39 +241,53 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const signInWithKakao = async () => {
     console.log('AuthContext: Initiating Kakao OAuth...')
     
-    // 환경에 따른 리다이렉트 URL 설정
-    const getRedirectUrl = () => {
-      if (typeof window === 'undefined') return '/'
-      
-      const origin = window.location.origin
-      console.log('Current origin:', origin)
-      
-      // Vercel 배포 환경인지 확인
-      if (origin.includes('vercel.app') || origin.includes('your-domain.com')) {
+    try {
+      // 환경에 따른 리다이렉트 URL 설정 및 검증
+      const getRedirectUrl = () => {
+        if (typeof window === 'undefined') return '/'
+        
+        const origin = window.location.origin
+        console.log('Current origin:', origin)
+        
+        // 허용된 도메인만 사용
+        const allowedDomains = ['localhost', 'vercel.app', 'learnhangul.govinfos.com']
+        const isAllowedDomain = allowedDomains.some(domain => origin.includes(domain))
+        
+        if (!isAllowedDomain) {
+          throw new Error('Unauthorized domain for OAuth redirect')
+        }
+        
         return origin + '/'
       }
       
-      // 로컬 개발 환경
-      return origin + '/'
-    }
-    
-    const redirectUrl = getRedirectUrl()
-    console.log('Redirect URL:', redirectUrl)
-    
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'kakao',
-      options: {
-        redirectTo: redirectUrl,
+      const redirectUrl = getRedirectUrl()
+      console.log('Redirect URL:', redirectUrl)
+      
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'kakao',
+        options: {
+          redirectTo: redirectUrl,
+        }
+      })
+      
+      if (error) {
+        console.error('AuthContext: Kakao OAuth error:', error)
+      } else {
+        console.log('AuthContext: Kakao OAuth initiated successfully')
       }
-    })
-    
-    if (error) {
-      console.error('AuthContext: Kakao OAuth error:', error)
-    } else {
-      console.log('AuthContext: Kakao OAuth initiated successfully')
+      
+      return { error }
+    } catch (err) {
+      console.error('AuthContext: Kakao OAuth exception:', err)
+      const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred'
+      return { 
+        error: {
+          message: errorMessage,
+          status: 500,
+          name: 'OAuthException'
+        } as any
+      }
     }
-    
-    return { error }
   }
 
   const value = {
