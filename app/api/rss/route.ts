@@ -34,7 +34,7 @@ export async function GET() {
     <link>${baseUrl}</link>
     <language>ko</language>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
-    <atom:link href="${baseUrl}/feed.xml" rel="self" type="application/rss+xml"/>
+    <atom:link href="${baseUrl}/api/rss" rel="self" type="application/rss+xml"/>
     <generator>Korean Learning Hub</generator>
     <managingEditor>noreply@learnhangul.govinfos.com (Korean Learning Hub)</managingEditor>
     <webMaster>noreply@learnhangul.govinfos.com (Korean Learning Hub)</webMaster>
