@@ -1,139 +1,237 @@
 # Korean Learning Hub 🇰🇷
 
-A comprehensive Korean language learning platform designed specifically for foreigners who want to learn Korean effectively and enjoyably.
+A comprehensive Korean language learning platform designed specifically for foreigners who want to learn Korean effectively and enjoyably. Built with Next.js 14, TypeScript, and Supabase.
 
-## Features
+## 🌟 Live Demo
+
+**🔗 [https://learnhangul.govinfos.com](https://learnhangul.govinfos.com)**
+
+## ✨ Features
 
 ### 🎯 Core Learning Modules
-- **Hangeul Learning**: Interactive lessons for Korean alphabet (consonants and vowels)
-- **Vocabulary Builder**: Essential Korean words and phrases with pronunciation
-- **Quiz System**: Test your knowledge with timed quizzes and progress tracking
+- **Step-by-Step Learning**: Structured lessons from beginner to advanced levels
+- **Hangeul Learning**: Interactive Korean alphabet lessons with pronunciation
+- **Vocabulary Builder**: Essential Korean words and phrases with audio
+- **Quiz System**: Timed quizzes with progress tracking and analytics
+- **Lesson System**: Comprehensive lessons with grammar, conversation, and vocabulary
+
+### 🔐 Authentication & User Management
+- **Google OAuth**: One-click login with Google account
+- **Kakao OAuth**: Social login with Kakao (Korean users)
+- **Email/Password**: Traditional authentication with password reset
+- **User Progress**: Individual learning progress and completion tracking
+- **Favorites System**: Save and manage favorite vocabulary words
 
 ### 🎨 User Experience
-- **Responsive Design**: Works perfectly on desktop, tablet, and mobile devices
-- **Interactive UI**: Beautiful, modern interface with smooth animations
-- **Audio Support**: Text-to-speech for pronunciation practice
-- **Progress Tracking**: Monitor your learning journey with detailed statistics
+- **Responsive Design**: Optimized for desktop, tablet, and mobile
+- **Modern UI**: Beautiful interface with Tailwind CSS and smooth animations
+- **Audio Support**: Text-to-speech for Korean pronunciation practice
+- **Progress Tracking**: Detailed statistics and learning analytics
+- **Dark/Light Mode**: Adaptive design for different preferences
 
 ### 📚 Learning Content
-- **Beginner to Advanced**: Content organized by difficulty levels
-- **Categorized Vocabulary**: Words grouped by topics (greetings, food, places, etc.)
-- **Real Examples**: Practical usage examples for better understanding
-- **Cultural Context**: Learn Korean in cultural context
+- **3 Difficulty Levels**: Beginner, Intermediate, and Advanced
+- **15+ Lesson Categories**: Grammar, conversation, vocabulary, and more
+- **500+ Vocabulary Words**: Categorized by topics and difficulty
+- **100+ Quiz Questions**: Multiple choice with explanations
+- **Cultural Context**: Learn Korean with cultural insights
 
-## Technology Stack
+## 🛠️ Technology Stack
 
+### Frontend
 - **Framework**: Next.js 14 with App Router
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS
+- **Language**: TypeScript (strict mode)
+- **Styling**: Tailwind CSS with custom Korean theme
 - **Icons**: Lucide React
 - **Animations**: Framer Motion
 - **Audio**: Web Speech API
 
-## Getting Started
+### Backend & Database
+- **Database**: Supabase (PostgreSQL)
+- **Authentication**: Supabase Auth with OAuth providers
+- **Real-time**: Supabase Realtime for live updates
+- **Storage**: Supabase Storage for media files
+
+### Deployment & SEO
+- **Hosting**: Vercel
+- **SEO**: Next.js built-in SEO optimization
+- **Analytics**: Google Analytics integration
+- **Monetization**: Google AdSense integration
+- **RSS Feed**: Automatic content syndication
+
+## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js 18+ 
+- Node.js 18+
 - npm or yarn
+- Supabase account
 
 ### Installation
 
-1. Clone the repository:
+1. **Clone the repository:**
 ```bash
-git clone <repository-url>
-cd korean-learning-app
+git clone https://github.com/JHEcho/han.git
+cd han
 ```
 
-2. Install dependencies:
+2. **Install dependencies:**
 ```bash
 npm install
-# or
-yarn install
 ```
 
-3. Run the development server:
+3. **Set up environment variables:**
+```bash
+cp env.example .env.local
+```
+
+Edit `.env.local` with your Supabase credentials:
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+```
+
+4. **Run the development server:**
 ```bash
 npm run dev
-# or
-yarn dev
 ```
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser.
+5. **Open [http://localhost:3000](http://localhost:3000) in your browser.**
 
-## Project Structure
+## 📁 Project Structure
 
 ```
 ├── app/                    # Next.js App Router
+│   ├── auth/              # Authentication pages
+│   ├── dev-tools/         # Development utilities
+│   ├── hangeul/           # Korean alphabet learning
+│   ├── learn/             # Main learning interface
+│   ├── lessons/           # Individual lesson pages
+│   ├── quiz/              # Quiz system
+│   ├── vocabulary/        # Vocabulary learning
+│   ├── api/               # API routes (RSS feed)
 │   ├── globals.css        # Global styles
-│   ├── layout.tsx         # Root layout
-│   ├── page.tsx           # Home page
-│   ├── hangeul/           # Hangeul learning page
-│   ├── vocabulary/        # Vocabulary learning page
-│   └── quiz/              # Quiz page
-├── components/            # Reusable components
-│   └── Navigation.tsx     # Navigation component
-├── public/               # Static assets
-└── ...config files
+│   ├── layout.tsx         # Root layout with SEO
+│   └── page.tsx           # Home page
+├── components/            # Reusable UI components
+│   ├── auth/              # Authentication components
+│   ├── dev-tools/         # Development components
+│   ├── Navigation.tsx     # Main navigation
+│   └── ProtectedRoute.tsx # Route protection
+├── contexts/              # React contexts
+│   └── AuthContext.tsx    # Authentication state
+├── hooks/                 # Custom React hooks
+│   ├── useLearningProgress.ts # Learning progress tracking
+│   └── useUserProgress.ts     # User progress management
+├── lib/                   # Utility libraries
+│   ├── lessonData.ts      # Lesson content data
+│   └── supabase.ts        # Supabase client & types
+├── supabase/              # Database migrations
+│   └── migrations/        # SQL migration files
+└── public/               # Static assets
 ```
 
-## Features in Detail
+## 🎓 Learning Features
 
-### 🏠 Home Page
-- Welcome section with learning statistics
-- Quick access to all learning modules
-- Progress overview and achievements
+### 📖 Step-by-Step Learning
+- **Beginner Level**: Basic vocabulary and simple sentences
+- **Intermediate Level**: Everyday vocabulary and grammar
+- **Advanced Level**: Complex grammar and conversation skills
+- **Progress Tracking**: Visual progress bars and completion status
+- **Unlock System**: Sequential lesson unlocking based on completion
 
-### 📖 Hangeul Learning
-- Interactive character cards for consonants and vowels
-- Pronunciation guides with audio support
-- Example words for each character
-- Progress tracking for completed lessons
+### 🔤 Hangeul Learning
+- **Interactive Cards**: Consonants and vowels with pronunciation
+- **Audio Support**: Text-to-speech for each character
+- **Example Words**: Practical usage examples
+- **Progress Tracking**: Track completed characters and syllables
 
-### 📚 Vocabulary Section
-- Categorized word lists (greetings, food, places, etc.)
-- Difficulty-based filtering (beginner, intermediate, advanced)
-- Favorites system for personalized learning
-- Audio pronunciation for each word
+### 📚 Vocabulary System
+- **Categorized Words**: Organized by topics (greetings, food, places, etc.)
+- **Difficulty Filtering**: Beginner, intermediate, and advanced levels
+- **Favorites**: Save and manage favorite words
+- **Audio Pronunciation**: Listen to correct pronunciation
+- **Search & Filter**: Find words quickly
 
 ### 🧠 Quiz System
-- Multiple choice questions
-- Timed quizzes with countdown timer
-- Immediate feedback and explanations
-- Score tracking and performance analytics
-- Quiz review with correct answers
+- **Multiple Choice**: Timed quizzes with immediate feedback
+- **Score Tracking**: Performance analytics and progress
+- **Explanations**: Detailed explanations for correct answers
+- **Review Mode**: Review completed quizzes
+- **Difficulty Levels**: Quizzes matched to learning level
 
-## Customization
+## 🔧 Development
 
-### Adding New Vocabulary
-Edit `app/vocabulary/page.tsx` and add new words to the `vocabularyData` array:
-
-```typescript
-{
-  korean: '새로운 단어',
-  romanization: 'saeroun danoe',
-  english: 'New Word',
-  category: 'Category',
-  difficulty: 'beginner'
-}
+### Available Scripts
+```bash
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run start        # Start production server
+npm run lint         # Run ESLint
+npm run type-check   # Run TypeScript checks
 ```
 
-### Adding New Quiz Questions
-Edit `app/quiz/page.tsx` and add new questions to the `quizQuestions` array:
+### Development Tools
+Access development utilities at `/dev-tools` (development mode only):
+- Authentication testing
+- Database connection testing
+- OAuth provider testing
+- Network diagnostics
 
-```typescript
-{
-  id: 6,
-  type: 'vocabulary',
-  question: 'Your question here?',
-  options: ['Option 1', 'Option 2', 'Option 3', 'Option 4'],
-  correctAnswer: 0,
-  explanation: 'Explanation here',
-  korean: '한국어',
-  romanization: 'hangukeo'
-}
+## 🗄️ Database Schema
+
+### Core Tables
+- `learning_levels`: Difficulty levels and descriptions
+- `lessons`: Individual lesson content and metadata
+- `user_progress`: User learning progress and completion
+- `user_favorites`: User's favorite vocabulary words
+
+### Authentication
+- Supabase Auth handles user authentication
+- Row Level Security (RLS) for data protection
+- OAuth integration with Google and Kakao
+
+## 🚀 Deployment
+
+### Vercel Deployment
+1. **Connect GitHub repository to Vercel**
+2. **Set environment variables in Vercel dashboard:**
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+   - `NEXT_PUBLIC_SITE_URL`
+3. **Deploy automatically on git push**
+
+### Environment Variables
+```env
+# Required
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+NEXT_PUBLIC_SITE_URL=https://your-domain.com
+
+# Optional
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+KAKAO_CLIENT_ID=your_kakao_client_id
+KAKAO_CLIENT_SECRET=your_kakao_client_secret
 ```
 
-## Contributing
+## 🔒 Security Features
+
+- **Input Validation**: Comprehensive form validation and sanitization
+- **Authentication Security**: Secure OAuth flows with domain validation
+- **Environment Variables**: Secure API key management
+- **Security Headers**: CSP, HSTS, XSS protection, and more
+- **Row Level Security**: Database-level access control
+- **Error Handling**: Secure error messages without sensitive data
+
+## 📊 Analytics & Monetization
+
+- **Google Analytics**: User behavior tracking
+- **Google AdSense**: Strategic ad placement for revenue
+- **RSS Feed**: Content syndication at `/api/rss`
+- **SEO Optimization**: Meta tags, sitemap, and structured data
+
+## 🤝 Contributing
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
@@ -141,49 +239,43 @@ Edit `app/quiz/page.tsx` and add new questions to the `quizQuestions` array:
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 🔧 Development Tools
+### Development Guidelines
+- Follow TypeScript strict mode
+- Use Tailwind CSS for styling
+- Maintain responsive design
+- Add proper error handling
+- Include Korean language content validation
 
-For development and testing, you can access the dev tools at:
-- Development tools: [http://localhost:3000/dev-tools](http://localhost:3000/dev-tools)
+## 📈 Future Enhancements
 
-**Note**: Dev tools are only available in development mode.
+- [ ] **AI-Powered Features**: Conversation practice with AI
+- [ ] **Mobile App**: React Native version
+- [ ] **Offline Support**: PWA with offline learning
+- [ ] **Social Features**: User profiles and leaderboards
+- [ ] **Advanced Analytics**: Detailed learning insights
+- [ ] **Multi-language Support**: Interface in multiple languages
+- [ ] **Voice Recognition**: Speaking practice with AI feedback
+- [ ] **Gamification**: Points, badges, and achievements
 
-## 🗄️ Database & Authentication
-
-The app now includes:
-- ✅ **Supabase Integration**: Database and authentication
-- ✅ **User Authentication**: Email/password signup, login, logout, password reset
-- ✅ **User Progress Tracking**: Individual learning progress and scores
-- ✅ **Favorites System**: Save favorite vocabulary words
-- ✅ **Row Level Security**: Secure user data access
-
-## 🚀 Deployment
-
-The app is ready for deployment on platforms like Vercel or Netlify:
-
-```bash
-npm run build
-```
-
-## Future Enhancements
-
-- [ ] Advanced grammar lessons
-- [ ] Conversation practice with AI
-- [ ] Mobile app version
-- [ ] Offline learning support
-- [ ] Social features and leaderboards
-- [ ] More language support for instructions
-
-## License
+## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Acknowledgments
+## 🙏 Acknowledgments
 
-- Korean language content curated for international learners
-- Design inspired by modern educational platforms
-- Built with love for Korean language learners worldwide
+- **Korean Language Content**: Curated for international learners
+- **Design Inspiration**: Modern educational platforms
+- **Community**: Built with love for Korean language learners worldwide
+- **Open Source**: Thanks to all contributors and the open source community
+
+## 📞 Support
+
+- **Issues**: [GitHub Issues](https://github.com/JHEcho/han/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/JHEcho/han/discussions)
+- **Email**: Contact through GitHub profile
 
 ---
 
 **Happy Learning! 화이팅! 💪**
+
+*Start your Korean learning journey today at [https://learnhangul.govinfos.com](https://learnhangul.govinfos.com)*
