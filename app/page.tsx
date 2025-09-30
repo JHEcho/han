@@ -159,12 +159,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Ad space removed */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="w-full h-[90px] bg-gray-100 rounded-lg flex items-center justify-center">
-            <span className="text-gray-500">Content Space</span>
-          </div>
-        </div>
 
         {/* Learning Levels Section */}
         <section className="py-16 px-4 sm:px-6 lg:px-8">
