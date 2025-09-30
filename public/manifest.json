@@ -1,0 +1,27 @@
+{
+  "name": "Korean Learning Hub",
+  "short_name": "Korean Hub",
+  "description": "Learn Korean with interactive lessons, vocabulary, and quizzes",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0047a0",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/apple-icon.svg",
+      "sizes": "180x180",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "categories": ["education", "language", "learning"],
+  "lang": "en",
+  "dir": "ltr"
+}

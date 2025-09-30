@@ -21,6 +21,17 @@ export const metadata: Metadata = {
       'application/rss+xml': '/api/rss',
     },
   },
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/icon.svg', type: 'image/svg+xml' },
+    ],
+    apple: [
+      { url: '/apple-icon.svg', type: 'image/svg+xml' },
+    ],
+    shortcut: '/favicon.svg',
+  },
+  manifest: '/manifest.json',
   openGraph: {
     title: 'Korean Learning Hub - Learn Korean with Fun!',
     description: 'A comprehensive Korean language learning platform for foreigners. Learn Hangeul, vocabulary, grammar, and conversation with interactive lessons and quizzes.',
