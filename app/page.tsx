@@ -9,6 +9,7 @@ import ProtectedRoute from '@/components/ProtectedRoute'
 import Link from 'next/link'
 import { BookOpen, Brain, Trophy, Users, Star, ArrowRight, Target, Award, Clock, CheckCircle } from 'lucide-react'
 import { useAuth } from '@/contexts/AuthContext'
+import AdSense from '@/components/AdSense'
 
 export default function Home() {
   const { user, loading } = useAuth()
@@ -161,19 +162,11 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Google AdSense - Horizontal Ad */}
+        {/* Ad space removed */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <ins 
-            className="adsbygoogle"
-            style={{ display: 'block' }}
-            data-ad-client="ca-pub-4011742299641178"
-            data-ad-slot="3491557099"
-            data-ad-format="auto"
-            data-full-width-responsive="true"
-          />
-          <script dangerouslySetInnerHTML={{
-            __html: '(adsbygoogle = window.adsbygoogle || []).push({});'
-          }} />
+          <div className="w-full h-[90px] bg-gray-100 rounded-lg flex items-center justify-center">
+            <span className="text-gray-500">Content Space</span>
+          </div>
         </div>
 
         {/* Learning Levels Section */}
@@ -264,19 +257,11 @@ export default function Home() {
               
               {/* Google AdSense - Vertical Ad */}
               <div className="lg:col-span-1 flex justify-center">
-                <div className="w-full max-w-[300px]">
-                  <ins 
-                    className="adsbygoogle"
-                    style={{ display: 'block' }}
-                    data-ad-client="ca-pub-4011742299641178"
-                    data-ad-slot="3832863093"
-                    data-ad-format="auto"
-                    data-full-width-responsive="true"
-                  />
-                  <script dangerouslySetInnerHTML={{
-                    __html: '(adsbygoogle = window.adsbygoogle || []).push({});'
-                  }} />
-                </div>
+                <AdSense 
+                  adSlot="3832863093"
+                  adFormat="auto"
+                  className="w-full max-w-[300px]"
+                />
               </div>
             </div>
           </div>

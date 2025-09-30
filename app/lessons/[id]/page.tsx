@@ -8,6 +8,7 @@ import { getLessonById } from '@/lib/lessonData'
 import { ArrowLeft, Play, Pause, Volume2, CheckCircle, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import { useLearningProgress } from '@/hooks/useLearningProgress'
+import AdSense from '@/components/AdSense'
 
 export default function LessonPage() {
   const params = useParams()
@@ -272,17 +273,10 @@ export default function LessonPage() {
 
           {/* Google AdSense - Horizontal Ad */}
           <div className="mb-8">
-            <ins 
-              className="adsbygoogle"
-              style={{ display: 'block' }}
-              data-ad-client="ca-pub-4011742299641178"
-              data-ad-slot="3491557099"
-              data-ad-format="auto"
-              data-full-width-responsive="true"
+            <AdSense 
+              adSlot="3491557099"
+              adFormat="auto"
             />
-            <script dangerouslySetInnerHTML={{
-              __html: '(adsbygoogle = window.adsbygoogle || []).push({});'
-            }} />
           </div>
 
           {/* Lesson Content */}
@@ -487,19 +481,11 @@ export default function LessonPage() {
             
             {/* Google AdSense - Vertical Ad */}
             <div className="lg:col-span-1 flex justify-center">
-              <div className="w-full max-w-[300px]">
-                <ins 
-                  className="adsbygoogle"
-                  style={{ display: 'block' }}
-                  data-ad-client="ca-pub-4011742299641178"
-                  data-ad-slot="3832863093"
-                  data-ad-format="auto"
-                  data-full-width-responsive="true"
-                />
-                <script dangerouslySetInnerHTML={{
-                  __html: '(adsbygoogle = window.adsbygoogle || []).push({});'
-                }} />
-              </div>
+              <AdSense 
+                adSlot="3832863093"
+                adFormat="auto"
+                className="w-full max-w-[300px]"
+              />
             </div>
           </div>
 

@@ -8,6 +8,7 @@ import Navigation from '@/components/Navigation'
 import ProtectedRoute from '@/components/ProtectedRoute'
 import { Volume2, Star, ArrowRight, BookOpen, Users, Clock } from 'lucide-react'
 import { supabase, Vocabulary } from '@/lib/supabase'
+import AdSense from '@/components/AdSense'
 
 interface VocabularyWord {
   korean: string
@@ -281,19 +282,11 @@ export default function VocabularyPage() {
           
           {/* Google AdSense - Vertical Ad */}
           <div className="lg:col-span-1 flex justify-center">
-            <div className="w-full max-w-[300px]">
-              <ins 
-                className="adsbygoogle"
-                style={{ display: 'block' }}
-                data-ad-client="ca-pub-4011742299641178"
-                data-ad-slot="3832863093"
-                data-ad-format="auto"
-                data-full-width-responsive="true"
-              />
-              <script dangerouslySetInnerHTML={{
-                __html: '(adsbygoogle = window.adsbygoogle || []).push({});'
-              }} />
-            </div>
+            <AdSense 
+              adSlot="3832863093"
+              adFormat="auto"
+              className="w-full max-w-[300px]"
+            />
           </div>
         </div>
 

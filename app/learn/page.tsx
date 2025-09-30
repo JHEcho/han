@@ -12,6 +12,7 @@ import { useAuth } from '@/contexts/AuthContext'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { BookOpen, Brain, Target, Trophy, Clock, CheckCircle, Lock, Play, ArrowRight, Star, Users } from 'lucide-react'
+import AdSense from '@/components/AdSense'
 
 export default function LearnPage() {
   const searchParams = useSearchParams()
@@ -150,17 +151,10 @@ export default function LearnPage() {
 
           {/* Google AdSense - Horizontal Ad */}
           <div className="mb-8">
-            <ins 
-              className="adsbygoogle"
-              style={{ display: 'block' }}
-              data-ad-client="ca-pub-4011742299641178"
-              data-ad-slot="3491557099"
-              data-ad-format="auto"
-              data-full-width-responsive="true"
+            <AdSense 
+              adSlot="3491557099"
+              adFormat="auto"
             />
-            <script dangerouslySetInnerHTML={{
-              __html: '(adsbygoogle = window.adsbygoogle || []).push({});'
-            }} />
           </div>
 
           {/* Current Level Info */}
@@ -360,20 +354,10 @@ export default function LearnPage() {
                 })}
                 </div>
                 
-                {/* Google AdSense - Vertical Ad */}
+                {/* Ad space removed */}
                 <div className="lg:col-span-1 flex justify-center">
-                  <div className="w-full max-w-[300px]">
-                    <ins 
-                      className="adsbygoogle"
-                      style={{ display: 'block' }}
-                      data-ad-client="ca-pub-4011742299641178"
-                      data-ad-slot="3832863093"
-                      data-ad-format="auto"
-                      data-full-width-responsive="true"
-                    />
-                    <script dangerouslySetInnerHTML={{
-                      __html: '(adsbygoogle = window.adsbygoogle || []).push({});'
-                    }} />
+                  <div className="w-full max-w-[300px] h-[250px] bg-gray-100 rounded-lg flex items-center justify-center">
+                    <span className="text-gray-500">Content Space</span>
                   </div>
                 </div>
               </div>
