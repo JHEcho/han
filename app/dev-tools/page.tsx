@@ -2,8 +2,6 @@
 
 import { useState } from 'react'
 
-// Force dynamic rendering to prevent prerendering issues
-export const dynamic = 'force-dynamic'
 import Navigation from '@/components/Navigation'
 import ProtectedRoute from '@/components/ProtectedRoute'
 

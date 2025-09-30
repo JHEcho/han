@@ -1,8 +1,5 @@
 'use client'
 
-// Force dynamic rendering to prevent prerendering issues
-export const dynamic = 'force-dynamic'
-
 import { useState, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Navigation from '@/components/Navigation'

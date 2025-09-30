@@ -2,8 +2,6 @@
 
 import { useState, useEffect } from 'react'
 
-// Force dynamic rendering to prevent prerendering issues
-export const dynamic = 'force-dynamic'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 import { Lock, Eye, EyeOff } from 'lucide-react'

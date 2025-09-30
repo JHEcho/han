@@ -1,9 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-
-// Force dynamic rendering to prevent prerendering issues
-export const dynamic = 'force-dynamic'
 import Navigation from '@/components/Navigation'
 import ProtectedRoute from '@/components/ProtectedRoute'
 import { Volume2, Star, ArrowRight, BookOpen, Users, Clock } from 'lucide-react'

@@ -1,8 +1,5 @@
 'use client'
 
-// Force dynamic rendering to prevent prerendering issues
-export const dynamic = 'force-dynamic'
-
 import { useEffect, useState } from 'react'
 import Navigation from '@/components/Navigation'
 import ProtectedRoute from '@/components/ProtectedRoute'
