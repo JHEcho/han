@@ -351,11 +351,13 @@ export default function LearnPage() {
                 })}
                 </div>
                 
-                {/* Ad space removed */}
+                {/* Google AdSense - Vertical Ad */}
                 <div className="lg:col-span-1 flex justify-center">
-                  <div className="w-full max-w-[300px] h-[250px] bg-gray-100 rounded-lg flex items-center justify-center">
-                    <span className="text-gray-500">Content Space</span>
-                  </div>
+                  <AdSense 
+                    adSlot="3832863093"
+                    adFormat="auto"
+                    className="w-full max-w-[300px]"
+                  />
                 </div>
               </div>
             )}
