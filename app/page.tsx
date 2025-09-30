@@ -237,29 +237,17 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-              {/* Statistics Grid */}
-              <div className="lg:col-span-3 grid grid-cols-2 md:grid-cols-4 gap-8">
-                {stats.map((stat, index) => (
-                  <div key={index} className="text-center">
-                    <div className="text-4xl md:text-5xl font-bold text-primary-600 mb-2">
-                      {stat.value}
-                    </div>
-                    <div className="text-lg text-gray-600">
-                      {stat.label}
-                    </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+              {stats.map((stat, index) => (
+                <div key={index} className="text-center">
+                  <div className="text-4xl md:text-5xl font-bold text-primary-600 mb-2">
+                    {stat.value}
                   </div>
-                ))}
-              </div>
-              
-              {/* Google AdSense - Vertical Ad */}
-              <div className="lg:col-span-1 flex justify-center">
-                <AdSense 
-                  adSlot="3832863093"
-                  adFormat="auto"
-                  className="w-full max-w-[300px]"
-                />
-              </div>
+                  <div className="text-lg text-gray-600">
+                    {stat.label}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </section>
